@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.user.dao.SysDeptDao">
+    <resultMap id="BaseResultMap" type="com.cloud.model.user.SysDept">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="pid" jdbcType="INTEGER" property="pid"/>
+        <result column="fullname" jdbcType="VARCHAR" property="fullname"/>
+        <result column="sdeptname" jdbcType="VARCHAR" property="sdeptname"/>
+        <result column="num" jdbcType="INTEGER" property="num"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, pid, fullname, sdeptname, num, create_by, create_time, update_by, update_time, 
+    remarks
+  </sql>
+
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dept
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from sys_dept
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.cloud.model.user.SysDept"
+            useGeneratedKeys="true">
+    insert into sys_dept (pid, fullname, sdeptname, 
+      num, create_by, create_time, 
+      update_by, update_time, remarks
+      )
+    values (#{pid,jdbcType=INTEGER}, #{fullname,jdbcType=VARCHAR}, #{sdeptname,jdbcType=VARCHAR}, 
+      #{num,jdbcType=INTEGER}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.cloud.model.user.SysDept"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into sys_dept
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pid != null">
+                pid,
+            </if>
+            <if test="fullname != null and fullname != ''">
+                fullname,
+            </if>
+            <if test="sdeptname != null and sdeptname != ''">
+                sdeptname,
+            </if>
+            <if test="num != null">
+                num,
+            </if>
+            <if test="createBy != null and createBy != ''">
+                create_by,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                update_by,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pid != null">
+                #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="fullname != null and fullname != ''">
+                #{fullname,jdbcType=VARCHAR},
+            </if>
+            <if test="sdeptname != null and sdeptname != ''">
+                #{sdeptname,jdbcType=VARCHAR},
+            </if>
+            <if test="num != null">
+                #{num,jdbcType=INTEGER},
+            </if>
+            <if test="createBy != null and createBy != ''">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                #{remarks,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByIdSelective" parameterType="com.cloud.model.user.SysDept">
+        update sys_dept
+        <set>
+            <if test="pid != null">
+                pid = #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="fullname != null and fullname != ''">
+                fullname = #{fullname,jdbcType=VARCHAR},
+            </if>
+            <if test="sdeptname != null and sdeptname != ''">
+                sdeptname = #{sdeptname,jdbcType=VARCHAR},
+            </if>
+            <if test="num != null">
+                num = #{num,jdbcType=INTEGER},
+            </if>
+            <if test="createBy != null and createBy != ''">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks = #{remarks,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateById" parameterType="com.cloud.model.user.SysDept">
+    update sys_dept
+    set pid = #{pid,jdbcType=INTEGER},
+      fullname = #{fullname,jdbcType=VARCHAR},
+      sdeptname = #{sdeptname,jdbcType=VARCHAR},
+      num = #{num,jdbcType=INTEGER},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+        insert into sys_dept
+        (pid, fullname, sdeptname, num, create_by, create_time, update_by, update_time, remarks
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.pid,jdbcType=INTEGER}, #{item.fullname,jdbcType=VARCHAR}, #{item.sdeptname,jdbcType=VARCHAR},
+            #{item.num,jdbcType=INTEGER}, #{item.createBy,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.updateBy,jdbcType=VARCHAR}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.remarks,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+
+    <select id="tree" resultType="com.cloud.model.common.ZTreeNode">
+		select id,pid as pId,sdeptname as name,
+		(
+		CASE
+		WHEN (pId = 0 OR pId IS NULL) THEN
+		'true'
+		ELSE
+		'false'
+		END
+		) as isOpen from sys_dept order by num DESC
+	</select>
+
+    <select id="findAllDept" resultType="com.cloud.model.user.SysDept">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dept
+        <where>
+            <if test="deptName != null and deptName != ''">
+                and fullname like "%"#{deptName,jdbcType=VARCHAR}"%"
+            </if>
+        </where>
+        order by num DESC
+    </select>
+
+    <select id="findAllDeptInRange" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dept
+        where 1=1
+        <if test="deptIds != null and deptIds.size() > 0">
+            and id in
+            <foreach item="item" index="index" collection="deptIds"
+                     open="(" separator="," close=")">
+                #{item,jdbcType=INTEGER}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="selectAllByFullname" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dept
+        where fullname=#{fullname,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectOneByFullnameAndIdNot" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dept
+        where fullname=#{fullname,jdbcType=VARCHAR} and id <![CDATA[<>]]> #{deptId,jdbcType=INTEGER}
+    </select>
+
+</mapper>

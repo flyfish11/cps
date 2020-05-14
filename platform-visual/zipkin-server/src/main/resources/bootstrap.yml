@@ -1,0 +1,30 @@
+server:
+  port: 30411
+spring:
+  application:
+    name: zipkin-server
+  profiles:
+    active: dev
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://register-center:30020/eureka/
+    registry-fetch-interval-seconds: 5
+  instance:
+    lease-expiration-duration-in-seconds: 15
+    lease-renewal-interval-in-seconds: 5
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+    hostname: register-center
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  metrics:
+    web:
+      server:
+        auto-time-requests: false
+logging:
+  file:
+    path: logs/${spring.application.name}.log

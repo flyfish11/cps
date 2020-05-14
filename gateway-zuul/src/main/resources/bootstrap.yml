@@ -1,0 +1,47 @@
+server:
+  port: 30080
+spring:
+  application:
+    name: gateway-zuul
+  servlet:
+    multipart:
+      max-request-size: 1000MB
+      max-file-size: 1000MB
+  zipkin:
+    base-url: http://zipkin-server:30411
+    locator:
+      discovery:
+        enabled: true
+    sender:
+      type: WEB
+      sleuth:
+        web:
+          client:
+            enabled: true
+        sampler:
+          probability: 1.0
+  profiles:
+    active: dev
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://register-center:30020/eureka/
+    registry-fetch-interval-seconds: 5
+  instance:
+    lease-expiration-duration-in-seconds: 15
+    lease-renewal-interval-in-seconds: 5
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+logging:
+  file:
+    path: logs/${spring.application.name}.log
+#唯一登录标识
+isUniqueLogin: false

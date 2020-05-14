@@ -1,0 +1,43 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: config-center
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: config-center
+    spec:
+      hostAliases:
+        - ip: "192.168.11.162"
+          hostnames:
+            - "local.redis.com"
+        - ip: "192.168.11.162"
+          hostnames:
+            - "local.rabbitmq.com"
+        - ip: "192.168.11.162"
+          hostnames:
+            - "local.mysql.com"
+      containers:
+        - name: config-center
+          image: rgs.hlxd.com:8081/cloud-service/config-center:latest
+          env:
+            - name: AUTHOR
+              value: config-center
+          ports:
+            - containerPort: 30011
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: config-center
+spec:
+  ports:
+    - port: 30011
+      protocol: TCP
+      targetPort: 30011
+      nodePort: 30011
+  type: NodePort
+  selector:
+    app: config-center

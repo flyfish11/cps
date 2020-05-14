@@ -1,0 +1,6 @@
+# 日志级别配置
+logging:
+  level:
+    com:
+      cloud: debug
+      codingapi: debug

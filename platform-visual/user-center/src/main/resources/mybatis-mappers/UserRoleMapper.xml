@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.user.dao.UserRoleDao">
+
+    <delete id="deleteUserRole">
+        delete from sys_role_user
+        <where>
+            <if test="userId != null">
+                and userId = #{userId}
+            </if>
+            <if test="roleId != null">
+                and roleId = #{roleId}
+            </if>
+        </where>
+    </delete>
+
+    <select id="findUserIdInRoleId" resultType="java.lang.Integer">
+        SELECT userId FROM sys_role_user WHERE 1=1
+        <if test="roleIdList != null and roleIdList.size() > 0">
+            AND roleId in
+            <foreach item="item" index="index" collection="roleIdList"
+                     open="(" separator="," close=")">
+                #{item,jdbcType=INTEGER}
+            </foreach>
+        </if>
+    </select>
+</mapper>

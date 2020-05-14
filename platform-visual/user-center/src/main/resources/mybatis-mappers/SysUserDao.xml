@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.user.dao.SysUserDao">
+    <resultMap id="BaseResultMap" type="com.cloud.model.user.SysUser">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
+        <result column="account" jdbcType="VARCHAR" property="account"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="sex" jdbcType="INTEGER" property="sex"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="roleid" jdbcType="VARCHAR" property="roleid"/>
+        <result column="deptid" jdbcType="INTEGER" property="deptid"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="num" jdbcType="INTEGER" property="num"/>
+        <result column="product_register_count" jdbcType="INTEGER" property="productRegisterCount"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, avatar, account, `password`, `name`, sex, email, phone, roleid, deptid, `status`,
+    num, product_register_count, create_by, create_time, update_by, update_time, remarks
+  </sql>
+
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from sys_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.cloud.model.user.SysUser"
+            useGeneratedKeys="true">
+        insert into sys_user (avatar, account, `password`,
+        `name`, sex, email, phone,
+        roleid, deptid, `status`,
+        num, product_register_count, create_by, create_time,
+        update_by, update_time, remarks
+        )
+        values (#{avatar,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+        #{name,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+        #{roleid,jdbcType=VARCHAR}, #{deptid,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
+        #{num,jdbcType=INTEGER},#{productRegisterCount,jdbcType=INTEGER}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+        #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.cloud.model.user.SysUser"
+            useGeneratedKeys="true">
+        insert into sys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="avatar != null and avatar != ''">
+                avatar,
+            </if>
+            <if test="account != null and account != ''">
+                account,
+            </if>
+            <if test="password != null and password != ''">
+                `password`,
+            </if>
+            <if test="name != null and name != ''">
+                `name`,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="email != null and email != ''">
+                email,
+            </if>
+            <if test="phone != null and phone != ''">
+                phone,
+            </if>
+            <if test="roleid != null and roleid != ''">
+                roleid,
+            </if>
+            <if test="deptid != null">
+                deptid,
+            </if>
+            <if test="status != null">
+                `status`,
+            </if>
+            <if test="num != null">
+                num,
+            </if>
+            <if test="productRegisterCount != null">
+                product_register_count,
+            </if>
+            <if test="createBy != null and createBy != ''">
+                create_by,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                update_by,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="avatar != null and avatar != ''">
+                #{avatar,jdbcType=VARCHAR},
+            </if>
+            <if test="account != null and account != ''">
+                #{account,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null and password != ''">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null and name != ''">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                #{sex,jdbcType=INTEGER},
+            </if>
+            <if test="email != null and email != ''">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null and phone != ''">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="roleid != null and roleid != ''">
+                #{roleid,jdbcType=VARCHAR},
+            </if>
+            <if test="deptid != null">
+                #{deptid,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="num != null">
+                #{num,jdbcType=INTEGER},
+            </if>
+            <if test="productRegisterCount != null">
+                #{productRegisterCount,jdbcType=INTEGER},
+            </if>
+            <if test="createBy != null and createBy != ''">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                #{remarks,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByIdSelective" parameterType="com.cloud.model.user.SysUser">
+        update sys_user
+        <set>
+            <if test="avatar != null and avatar != ''">
+                avatar = #{avatar,jdbcType=VARCHAR},
+            </if>
+            <if test="account != null and account != ''">
+                account = #{account,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null and password != ''">
+                `password` = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null and name != ''">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                sex = #{sex,jdbcType=INTEGER},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="roleid != null and roleid != ''">
+                roleid = #{roleid,jdbcType=VARCHAR},
+            </if>
+            <if test="deptid != null">
+                deptid = #{deptid,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                `status` = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="num != null">
+                num = #{num,jdbcType=INTEGER},
+            </if>
+            <if test="productRegisterCount != null">
+                product_register_count = #{productRegisterCount,jdbcType=INTEGER},
+            </if>
+            <if test="createBy != null and createBy != ''">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks = #{remarks,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateById" parameterType="com.cloud.model.user.SysUser">
+    update sys_user
+    set avatar = #{avatar,jdbcType=VARCHAR},
+      account = #{account,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      `name` = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      email = #{email,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      roleid = #{roleid,jdbcType=VARCHAR},
+      deptid = #{deptid,jdbcType=INTEGER},
+      `status` = #{status,jdbcType=INTEGER},
+      num = #{num,jdbcType=INTEGER},
+      product_register_count = #{productRegisterCount,jdbcType=INTEGER},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+        insert into sys_user
+        (avatar, account, `password`, `name`, sex, email, phone, roleid, deptid, `status`,
+        num, product_register_count, create_by, create_time, update_by, update_time, remarks)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.avatar,jdbcType=VARCHAR}, #{item.account,jdbcType=VARCHAR}, #{item.password,jdbcType=VARCHAR},
+            #{item.name,jdbcType=VARCHAR}, #{item.sex,jdbcType=INTEGER}, #{item.email,jdbcType=VARCHAR},
+            #{item.phone,jdbcType=VARCHAR}, #{item.roleid,jdbcType=VARCHAR}, #{item.deptid,jdbcType=INTEGER},
+            #{item.status,jdbcType=INTEGER}, #{item.num,jdbcType=INTEGER},
+            #{item.productRegisterCount,jdbcType=INTEGER},
+            #{item.createBy,jdbcType=VARCHAR},
+            #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateBy,jdbcType=VARCHAR},
+            #{item.updateTime,jdbcType=TIMESTAMP},
+            #{item.remarks,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <select id="findAllByStatus" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user
+        where `status`=#{status,jdbcType=INTEGER}
+    </select>
+
+    <select id="findAllUserInDeptRange" resultType="com.cloud.model.user.SysUser">
+        select * from sys_user where 1=1
+        <if test="deptIds != null and deptIds.size() > 0">
+            and deptid in
+            <foreach item="item" index="index" collection="deptIds"
+                     open="(" separator="," close=")">
+                #{item,jdbcType=INTEGER}
+            </foreach>
+        </if>
+    </select>
+
+    <sql id="where">
+        <where>
+            status !=2
+            <if test="condition != null and condition != ''">
+                and t.account like concat('%', #{condition}, '%')
+                or t.name like concat('%', #{condition}, '%')
+                or t.phone like concat('%', #{condition}, '%')
+            </if>
+            <if test="deptId != null and deptId != ''">
+                and t.deptid = #{deptId}
+            </if>
+        </where>
+    </sql>
+
+    <select id="count" resultType="int">
+        select count(*) from sys_user t
+        <include refid="where"/>
+    </select>
+
+    <select id="findData" resultType="com.cloud.model.user.SysUser">
+        select t.*,ru.roleId from sys_user t left join sys_role_user ru on t.id=ru.userId
+        <include refid="where"/>
+        order by t.create_time desc
+        <if test="start != null and length != null">
+            limit #{start}, #{length}
+        </if>
+    </select>
+
+    <select id="selectAllByIdIn" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user
+        where id in
+        <foreach item="item" index="index" collection="idCollection"
+                 open="(" separator="," close=")">
+            #{item,jdbcType=INTEGER}
+        </foreach>
+    </select>
+
+    <select id="selectOneByAccount" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user
+        where account=#{account,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectOneByPhone" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user
+        where phone=#{phone,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectOneByPhoneAndIdNot" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user
+        where phone=#{phone,jdbcType=VARCHAR} and id <![CDATA[<>]]> #{userId,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectOneByEmail" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user
+        where email=#{email,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectOneByEmailAndIdNot" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user
+        where email=#{email,jdbcType=VARCHAR} and id <![CDATA[<>]]> #{userId,jdbcType=INTEGER}
+    </select>
+
+</mapper>

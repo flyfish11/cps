@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.appmanagercenter.dao.PlatformGroupDao">
+    <resultMap id="BaseResultMap" type="com.cloud.model.appmanagercenter.PlatformGroup">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="group_name" jdbcType="VARCHAR" property="groupName"/>
+        <result column="num" jdbcType="INTEGER" property="num"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="enable" jdbcType="INTEGER" property="enable"/>
+        <result column="del_flag" jdbcType="INTEGER" property="delFlag"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <resultMap id="platformGroupVO" type="com.cloud.model.appmanagercenter.vo.PlatformGroupVO">
+        <id column="id" jdbcType="INTEGER" property="groupId"/>
+        <result column="group_name" jdbcType="VARCHAR" property="groupName"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, group_name, num, description, `enable`, del_flag, create_by, create_time, update_by, update_time
+  </sql>
+
+    <sql id="PlatformGroupVO_Column_List">
+        id,group_name
+    </sql>
+
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_platform_group
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from t_platform_group
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.cloud.model.appmanagercenter.PlatformGroup"
+            useGeneratedKeys="true">
+    insert into t_platform_group (group_name, num, description, `enable`,
+      del_flag, create_by, create_time, 
+      update_by, update_time,
+      )
+    values (#{groupName,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, #{enable,jdbcType=INTEGER},
+      #{delFlag,jdbcType=INTEGER}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+      #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="com.cloud.model.appmanagercenter.PlatformGroup" useGeneratedKeys="true">
+        insert into t_platform_group
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="groupName != null and groupName != ''">
+                group_name,
+            </if>
+            <if test="num != null">
+                num,
+            </if>
+            <if test="description != null and description != ''">
+                description,
+            </if>
+            <if test="enable != null">
+                `enable`,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="createBy != null and createBy != ''">
+                create_by,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                update_by,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="groupName != null and groupName != ''">
+                #{groupName,jdbcType=VARCHAR},
+            </if>
+            <if test="num != null">
+                #{num,jdbcType=INTEGER},
+            </if>
+            <if test="description != null and description != ''">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="enable != null">
+                #{enable,jdbcType=INTEGER},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag,jdbcType=INTEGER},
+            </if>
+            <if test="createBy != null and createBy != ''">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByIdSelective" parameterType="com.cloud.model.appmanagercenter.PlatformGroup">
+        update t_platform_group
+        <set>
+            <if test="groupName != null and groupName != ''">
+                group_name = #{groupName,jdbcType=VARCHAR},
+            </if>
+            <if test="num != null">
+                num = #{num,jdbcType=INTEGER},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="enable != null">
+                `enable` = #{enable,jdbcType=INTEGER},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag,jdbcType=INTEGER},
+            </if>
+            <if test="createBy != null and createBy != ''">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateById" parameterType="com.cloud.model.appmanagercenter.PlatformGroup">
+    update t_platform_group
+    set group_name = #{groupName,jdbcType=VARCHAR},
+      num = #{num,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR},
+      `enable` = #{enable,jdbcType=INTEGER},
+      del_flag = #{delFlag,jdbcType=INTEGER},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+        insert into t_platform_group
+        (group_name, num, description, `enable`, del_flag, create_by, create_time, update_by, update_time)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.groupName,jdbcType=VARCHAR}, #{item.num,jdbcType=INTEGER}, #{item.description,jdbcType=VARCHAR},
+            #{item.enable,jdbcType=INTEGER},
+            #{item.delFlag,jdbcType=INTEGER}, #{item.createBy,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.updateBy,jdbcType=VARCHAR}, #{item.updateTime,jdbcType=TIMESTAMP}
+            )
+        </foreach>
+    </insert>
+
+    <sql id="where">
+        <where>
+            <if test="groupName != null and groupName != ''">
+                and group_name like "%"#{groupName,jdbcType=VARCHAR}"%"
+            </if>
+            <if test="enable != null and enable != ''">
+                and `enable` = #{enable,jdbcType=INTEGER}
+            </if>
+            <if test="delFlag != null">
+                and del_flag = #{delFlag,jdbcType=INTEGER}
+            </if>
+        </where>
+    </sql>
+
+    <select id="count" resultType="int">
+        select count(1) from t_platform_group
+        <include refid="where"/>
+    </select>
+
+    <select id="findList" parameterType="Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_platform_group
+        <include refid="where"/>
+        <if test="start != null and length != null">
+            limit #{start}, #{length}
+        </if>
+    </select>
+
+    <select id="selectOneByGroupNameAndDelFlag" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_platform_group
+        where group_name=#{groupName,jdbcType=VARCHAR} and del_flag=#{delFlag,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectOneByGroupNameAndDelFlagAndIdNot" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_platform_group
+        where group_name=#{groupName,jdbcType=VARCHAR} and del_flag=#{delFlag,jdbcType=INTEGER} and id <![CDATA[<>]]>
+        #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectIdAndGroupName" resultMap="platformGroupVO">
+        select
+        <include refid="PlatformGroupVO_Column_List"/>
+        from t_platform_group
+        <where>
+            <if test="delFlag != null">
+                and del_flag = #{delFlag,jdbcType=INTEGER}
+            </if>
+            <if test="enable != null">
+                and `enable` = #{enable,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+</mapper>

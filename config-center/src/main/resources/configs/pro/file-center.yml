@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://local.mysql.com:3306/cloud_service?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+    username: root
+    password: Hlxd@123456
+  rabbitmq:
+    host: local.rabbitmq.com
+    port: 5672
+    username: cloud-dev
+    password: cloud-dev
+    virtual-host: /
+minio:
+  url: http://192.168.11.162:9000
+  access-key: cloud-service
+  secret-key: cloud-service
+  default-bucket: cloud-service
+file:
+  preview:
+    ## Nginx代理静态资源访问路径
+    url: http://192.168.11.162:8092
+logging:
+  level:
+    root: warn
+    com.cloud: warn

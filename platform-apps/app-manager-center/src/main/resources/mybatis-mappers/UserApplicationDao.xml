@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.appmanagercenter.dao.UserApplicationDao">
+    <resultMap id="BaseResultMap" type="com.cloud.model.appmanagercenter.UserApplication">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="app_id" jdbcType="INTEGER" property="appId"/>
+        <result column="app_name" jdbcType="VARCHAR" property="appName"/>
+        <result column="logo_url" jdbcType="VARCHAR" property="logoUrl"/>
+        <result column="index_url" jdbcType="VARCHAR" property="indexUrl"/>
+        <result column="recent_visit_time" jdbcType="TIMESTAMP" property="recentVisitTime"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+
+    <resultMap id="CustomResultMap" type="com.cloud.model.appmanagercenter.vo.UserApplicationVO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="app_id" jdbcType="INTEGER" property="appId"/>
+        <result column="app_name" jdbcType="VARCHAR" property="appName"/>
+        <result column="logo_url" jdbcType="VARCHAR" property="logoUrl"/>
+        <result column="index_url" jdbcType="VARCHAR" property="indexUrl"/>
+        <result column="recent_visit_time" jdbcType="TIMESTAMP" property="recentVisitTime"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="group_name" jdbcType="INTEGER" property="groupName"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, user_id, app_id, app_name, logo_url, index_url, recent_visit_time, create_by, 
+    create_time
+  </sql>
+
+    <sql id="Custom_Column_List">
+    a.id, a.user_id, a.app_id, a.app_name, a.logo_url, a.index_url, a.recent_visit_time, a.create_by,
+    a.create_time, c.group_name
+  </sql>
+
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user_application
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from t_user_application
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.cloud.model.appmanagercenter.UserApplication"
+            useGeneratedKeys="true">
+    insert into t_user_application (user_id, app_id, app_name, 
+      logo_url, index_url, recent_visit_time, 
+      create_by, create_time)
+    values (#{userId,jdbcType=INTEGER}, #{appId,jdbcType=INTEGER}, #{appName,jdbcType=VARCHAR}, 
+      #{logoUrl,jdbcType=VARCHAR}, #{indexUrl,jdbcType=VARCHAR}, #{recentVisitTime,jdbcType=TIMESTAMP}, 
+      #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="com.cloud.model.appmanagercenter.UserApplication" useGeneratedKeys="true">
+        insert into t_user_application
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="appId != null">
+                app_id,
+            </if>
+            <if test="appName != null and appName != ''">
+                app_name,
+            </if>
+            <if test="logoUrl != null and logoUrl != ''">
+                logo_url,
+            </if>
+            <if test="indexUrl != null and indexUrl != ''">
+                index_url,
+            </if>
+            <if test="recentVisitTime != null">
+                recent_visit_time,
+            </if>
+            <if test="createBy != null and createBy != ''">
+                create_by,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="appId != null">
+                #{appId,jdbcType=INTEGER},
+            </if>
+            <if test="appName != null and appName != ''">
+                #{appName,jdbcType=VARCHAR},
+            </if>
+            <if test="logoUrl != null and logoUrl != ''">
+                #{logoUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="indexUrl != null and indexUrl != ''">
+                #{indexUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="recentVisitTime != null">
+                #{recentVisitTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null and createBy != ''">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByIdSelective" parameterType="com.cloud.model.appmanagercenter.UserApplication">
+        update t_user_application
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="appId != null">
+                app_id = #{appId,jdbcType=INTEGER},
+            </if>
+            <if test="appName != null and appName != ''">
+                app_name = #{appName,jdbcType=VARCHAR},
+            </if>
+            <if test="logoUrl != null and logoUrl != ''">
+                logo_url = #{logoUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="indexUrl != null and indexUrl != ''">
+                index_url = #{indexUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="recentVisitTime != null">
+                recent_visit_time = #{recentVisitTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null and createBy != ''">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateById" parameterType="com.cloud.model.appmanagercenter.UserApplication">
+    update t_user_application
+    set user_id = #{userId,jdbcType=INTEGER},
+      app_id = #{appId,jdbcType=INTEGER},
+      app_name = #{appName,jdbcType=VARCHAR},
+      logo_url = #{logoUrl,jdbcType=VARCHAR},
+      index_url = #{indexUrl,jdbcType=VARCHAR},
+      recent_visit_time = #{recentVisitTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+        insert into t_user_application
+        (user_id, app_id, app_name, logo_url, index_url, recent_visit_time, create_by, create_time
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.userId,jdbcType=INTEGER}, #{item.appId,jdbcType=INTEGER}, #{item.appName,jdbcType=VARCHAR},
+            #{item.logoUrl,jdbcType=VARCHAR}, #{item.indexUrl,jdbcType=VARCHAR},
+            #{item.recentVisitTime,jdbcType=TIMESTAMP},
+            #{item.createBy,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+
+    <delete id="deleteByAppId">
+        delete from t_user_application
+        where app_id=#{appId,jdbcType=INTEGER}
+    </delete>
+
+    <select id="findAllUserApplication" parameterType="Map" resultMap="CustomResultMap">
+        select
+        <include refid="Custom_Column_List"/>
+        from t_user_application a
+        left join t_application b on a.app_id=b.id
+        left join t_platform_group c on b.platform_group=c.id
+        <where>
+            <if test="userId != null">
+                and a.user_id=#{userId,jdbcType=INTEGER}
+            </if>
+            <if test="appName != null and appName != ''">
+                and a.app_name like "%"#{appName,jdbcType=VARCHAR}"%"
+            </if>
+        </where>
+    </select>
+
+    <update id="updateUserApplication">
+        update t_user_application
+        <set>
+            <if test="userApplication.appName != null and userApplication.appName != ''">
+                app_name = #{userApplication.appName,jdbcType=VARCHAR},
+            </if>
+            <if test="userApplication.logoUrl != null and userApplication.logoUrl != ''">
+                logo_url = #{userApplication.logoUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="userApplication.indexUrl != null and userApplication.indexUrl != ''">
+                index_url = #{userApplication.indexUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="userApplication.recentVisitTime != null">
+                recent_visit_time = #{userApplication.recentVisitTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where app_id=#{userApplication.appId,jdbcType=INTEGER} and user_id=#{userApplication.userId,jdbcType=INTEGER}
+    </update>
+
+    <select id="findRecentVisit" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user_application
+        where user_id=#{userId,jdbcType=INTEGER}
+        and recent_visit_time is not null
+        order by recent_visit_time desc
+        limit 0, #{appCounts}
+    </select>
+
+    <update id="updateRecentVisitTimeByUserId">
+        update t_user_application
+        set recent_visit_time=#{recentVisitTime,jdbcType=TIMESTAMP}
+        where user_id=#{userId,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateAppInfoByAppId">
+        update t_user_application
+        <set>
+            <if test="appName != null and appName != ''">
+                app_name = #{appName,jdbcType=VARCHAR},
+            </if>
+            <if test="logoUrl != null and logoUrl != ''">
+                logo_url = #{logoUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="indexUrl != null and indexUrl != ''">
+                index_url = #{indexUrl,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where app_id=#{appId,jdbcType=INTEGER}
+    </update>
+
+    <delete id="deleteByUserId">
+        delete from t_user_application
+        where user_id=#{userId,jdbcType=INTEGER}
+    </delete>
+
+    <select id="findOneByAppIdAndUserId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user_application
+        where app_id=#{appId,jdbcType=INTEGER} and user_id=#{userId,jdbcType=INTEGER}
+    </select>
+
+</mapper>

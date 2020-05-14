@@ -1,0 +1,61 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://local.mysql.com:3306/cloud_service?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+    username: root
+    password: Hlxd@123456
+  rabbitmq:
+    host: local.rabbitmq.com
+    port: 5672
+    username: cloud-dev
+    password: cloud-dev
+    virtual-host: /
+  redis:
+    host: local.redis.com
+    port: 6379
+    database: 1
+  mvc:
+    servlet:
+      load-on-startup: 1
+    async:
+      request-timeout: 300000
+mybatis:
+  type-aliases-package: com.cloud.model.gateway
+  mapper-locations: classpath:/mybatis-mappers/*.xml
+  configuration:
+    mapUnderscoreToCamelCase: true
+zuul:
+  ignored-services: '*'
+  sensitiveHeaders:
+  host:
+    connect-timeout-millis: 300000
+    socket-timeout-millis: 300000
+  add-proxy-headers: true
+  ribbon:
+    eager-load:
+      enabled: true
+#ribbon的超时时间
+ribbon:
+  ReadTimeout: 300000
+  ConnectTimeout: 300000
+  MaxAutoRetries: 1
+  MaxAutoRetriesNextServer: 1
+## hystrix配置
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true #是否开启超时(默认开启)
+        isolation:
+          strategy: SEMAPHORE
+          #配置hystrix的超时时间，要大于(RibbonReadTimeout + RibbonConnectTimeout) * (MaxAutoRetries + 1) * (MaxAutoRetriesNextServer + 1)
+          thread:
+            timeoutInMilliseconds: 2400000
+cron:
+  black-ip: 0 0/5 * * * ?
+logging:
+  level:
+    root: info
+    com.cloud: debug
+

@@ -1,0 +1,43 @@
+server:
+  port: 30011
+spring:
+  application:
+    name: config-center
+  profiles:
+    active: composite
+  cloud:
+    config:
+      server:
+        composite:
+          - type: native
+            search-locations: classpath:/configs/{profile}
+  rabbitmq:
+    host: local.rabbitmq.com
+    port: 5672
+    username: cloud-dev
+    password: cloud-dev
+    virtual-host: /
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://register-center:30020/eureka/
+    registry-fetch-interval-seconds: 5
+  instance:
+    lease-expiration-duration-in-seconds: 15
+    lease-renewal-interval-in-seconds: 5
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+logging:
+  level:
+    root: warn
+    com.cloud: warn
+  file:
+    path: logs/${spring.application.name}.log

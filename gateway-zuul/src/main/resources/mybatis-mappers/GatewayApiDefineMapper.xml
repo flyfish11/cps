@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.gateway.dao.GatewayApiDefineDao">
+    <resultMap id="BaseResultMap" type="com.cloud.model.gateway.GatewayApiDefine">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="path" jdbcType="VARCHAR" property="path"/>
+        <result column="service_id" jdbcType="VARCHAR" property="serviceId"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
+        <result column="retryable" jdbcType="BOOLEAN" property="retryable"/>
+        <result column="enabled" jdbcType="BOOLEAN" property="enabled"/>
+        <result column="strip_prefix" jdbcType="INTEGER" property="stripPrefix"/>
+        <result column="api_name" jdbcType="VARCHAR" property="apiName"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, `path`, service_id, url, retryable, enabled, strip_prefix, api_name
+    </sql>
+    <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from gateway_api_define
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByServiceId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from gateway_api_define
+        where service_id = #{serviceId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete from gateway_api_define
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.cloud.model.gateway.GatewayApiDefine">
+        insert into gateway_api_define (id, `path`, service_id,
+        url, retryable, enabled,
+        strip_prefix, api_name)
+        values (#{id,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{serviceId,jdbcType=VARCHAR},
+        #{url,jdbcType=VARCHAR}, #{retryable,jdbcType=BOOLEAN}, #{enabled,jdbcType=BOOLEAN},
+        #{stripPrefix,jdbcType=INTEGER}, #{apiName,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.cloud.model.gateway.GatewayApiDefine">
+        insert into gateway_api_define
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                id,
+            </if>
+            <if test="path != null and path != ''">
+                `path`,
+            </if>
+            <if test="serviceId != null and serviceId != ''">
+                service_id,
+            </if>
+            <if test="url != null and url != ''">
+                url,
+            </if>
+            <if test="retryable != null">
+                retryable,
+            </if>
+            <if test="enabled != null">
+                enabled,
+            </if>
+            <if test="stripPrefix != null">
+                strip_prefix,
+            </if>
+            <if test="apiName != null and apiName != ''">
+                api_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="path != null and path != ''">
+                #{path,jdbcType=VARCHAR},
+            </if>
+            <if test="serviceId != null and serviceId != ''">
+                #{serviceId,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null and url != ''">
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="retryable != null">
+                #{retryable,jdbcType=BOOLEAN},
+            </if>
+            <if test="enabled != null">
+                #{enabled,jdbcType=BOOLEAN},
+            </if>
+            <if test="stripPrefix != null">
+                #{stripPrefix,jdbcType=INTEGER},
+            </if>
+            <if test="apiName != null and apiName != ''">
+                #{apiName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByIdSelective" parameterType="com.cloud.model.gateway.GatewayApiDefine">
+        update gateway_api_define
+        <set>
+            <if test="path != null and path != ''">
+                `path` = #{path,jdbcType=VARCHAR},
+            </if>
+            <if test="serviceId != null and serviceId != ''">
+                service_id = #{serviceId,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null and url != ''">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="retryable != null">
+                retryable = #{retryable,jdbcType=BOOLEAN},
+            </if>
+            <if test="enabled != null">
+                enabled = #{enabled,jdbcType=BOOLEAN},
+            </if>
+            <if test="stripPrefix != null">
+                strip_prefix = #{stripPrefix,jdbcType=INTEGER},
+            </if>
+            <if test="apiName != null and apiName != ''">
+                api_name = #{apiName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateById" parameterType="com.cloud.model.gateway.GatewayApiDefine">
+        update gateway_api_define
+        set `path` = #{path,jdbcType=VARCHAR},
+        service_id = #{serviceId,jdbcType=VARCHAR},
+        url = #{url,jdbcType=VARCHAR},
+        retryable = #{retryable,jdbcType=BOOLEAN},
+        enabled = #{enabled,jdbcType=BOOLEAN},
+        strip_prefix = #{stripPrefix,jdbcType=INTEGER},
+        api_name = #{apiName,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectAllByEnabled" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from gateway_api_define
+        where enabled=#{enabled,jdbcType=BOOLEAN}
+    </select>
+
+    <sql id="where">
+        <where>
+            <if test="serviceId != null and serviceId != ''">
+                and service_id = #{serviceId,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </sql>
+
+    <select id="count" resultType="int">
+        select count(*) from gateway_api_define
+        <include refid="where"/>
+    </select>
+
+    <select id="pageList" resultType="com.cloud.model.gateway.GatewayApiDefine">
+        select
+        <include refid="Base_Column_List"/>
+        from gateway_api_define
+        <include refid="where"/>
+        limit #{start}, #{length}
+    </select>
+
+    <select id="selectAllByGatewayApiDefineInfo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from gateway_api_define
+        <where>
+            <if test="serviceId != null and serviceId != ''">
+                and service_id = #{serviceId,jdbcType=VARCHAR}
+            </if>
+            <if test="path != null and path != ''">
+                and path = #{path,jdbcType=VARCHAR}
+            </if>
+            <if test="apiName != null and apiName != ''">
+                and api_name = #{apiName,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+</mapper>

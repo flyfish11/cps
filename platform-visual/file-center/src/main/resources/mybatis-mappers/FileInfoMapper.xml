@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.file.dao.FileInfoDao">
+    <resultMap id="BaseResultMap" type="com.cloud.model.file.FileInfo">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="file_name" jdbcType="VARCHAR" property="fileName"/>
+        <result column="bucket_name" jdbcType="VARCHAR" property="bucketName"/>
+        <result column="original" jdbcType="VARCHAR" property="original"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="file_size" jdbcType="BIGINT" property="fileSize"/>
+        <result column="created_by" jdbcType="VARCHAR" property="createdBy"/>
+        <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, file_name, bucket_name, original, `type`, file_size, created_by, created_time
+  </sql>
+    <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from file_info
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete from file_info
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.cloud.model.file.FileInfo">
+        insert into file_info (id, file_name, bucket_name,
+        original, `type`, file_size,
+        created_by, created_time)
+        values (#{id,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{bucketName,jdbcType=VARCHAR},
+        #{original,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{fileSize,jdbcType=BIGINT},
+        #{createdBy,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.cloud.model.file.FileInfo">
+        insert into file_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                id,
+            </if>
+            <if test="fileName != null and fileName != ''">
+                file_name,
+            </if>
+            <if test="bucketName != null and bucketName != ''">
+                bucket_name,
+            </if>
+            <if test="original != null and original != ''">
+                original,
+            </if>
+            <if test="type != null and type != ''">
+                `type`,
+            </if>
+            <if test="fileSize != null">
+                file_size,
+            </if>
+            <if test="createdBy != null and createdBy != ''">
+                created_by,
+            </if>
+            <if test="createdTime != null">
+                created_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="fileName != null and fileName != ''">
+                #{fileName,jdbcType=VARCHAR},
+            </if>
+            <if test="bucketName != null and bucketName != ''">
+                #{bucketName,jdbcType=VARCHAR},
+            </if>
+            <if test="original != null and original != ''">
+                #{original,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null and type != ''">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="fileSize != null">
+                #{fileSize,jdbcType=BIGINT},
+            </if>
+            <if test="createdBy != null and createdBy != ''">
+                #{createdBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createdTime != null">
+                #{createdTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByIdSelective" parameterType="com.cloud.model.file.FileInfo">
+        update file_info
+        <set>
+            <if test="fileName != null and fileName != ''">
+                file_name = #{fileName,jdbcType=VARCHAR},
+            </if>
+            <if test="bucketName != null and bucketName != ''">
+                bucket_name = #{bucketName,jdbcType=VARCHAR},
+            </if>
+            <if test="original != null and original != ''">
+                original = #{original,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null and type != ''">
+                `type` = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="fileSize != null">
+                file_size = #{fileSize,jdbcType=BIGINT},
+            </if>
+            <if test="createdBy != null and createdBy != ''">
+                created_by = #{createdBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createdTime != null">
+                created_time = #{createdTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateById" parameterType="com.cloud.model.file.FileInfo">
+        update file_info
+        set file_name = #{fileName,jdbcType=VARCHAR},
+        bucket_name = #{bucketName,jdbcType=VARCHAR},
+        original = #{original,jdbcType=VARCHAR},
+        `type` = #{type,jdbcType=VARCHAR},
+        file_size = #{fileSize,jdbcType=BIGINT},
+        created_by = #{createdBy,jdbcType=VARCHAR},
+        created_time = #{createdTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <sql id="where">
+        <where>
+            <if test="fileName != null and fileName != ''">
+                and file_name = #{fileName,jdbcType=VARCHAR}
+            </if>
+            <if test="bucketName != null and bucketName != ''">
+                and bucket_name = #{bucketName,jdbcType=VARCHAR}
+            </if>
+            <if test="original != null and original != ''">
+                and original LIKE CONCAT('%',#{original},'%')
+            </if>
+            <if test="type != null and type != ''">
+                and `type` = #{type,jdbcType=VARCHAR}
+            </if>
+            <if test="fileSize != null">
+                and file_size = #{fileSize,jdbcType=BIGINT}
+            </if>
+            <if test="createdBy != null and createdBy != ''">
+                and created_by = #{createdBy,jdbcType=VARCHAR}
+            </if>
+            <if test="createdTime != null">
+                and created_time = #{createdTime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </sql>
+
+    <select id="count" resultType="int">
+        select count(*) from file_info
+        <include refid="where"/>
+    </select>
+
+    <select id="findList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from file_info
+        <include refid="where"/>
+        order by created_time desc
+        <if test="start != null and length != null">
+            limit #{start}, #{length}
+        </if>
+    </select>
+
+    <select id="findOneByFileName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from file_info
+        where file_name=#{fileName,jdbcType=VARCHAR}
+    </select>
+</mapper>

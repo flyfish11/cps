@@ -1,0 +1,65 @@
+server:
+  port: 30026
+spring:
+  application:
+    name: tx-manager
+  profiles:
+    active: dev
+  redis:
+    host: local.redis.com
+    port: 6379
+  zipkin:
+    base-url: http://zipkin-server:30411
+    locator:
+      discovery:
+        enabled: true
+    sender:
+      type: WEB
+      sleuth:
+        web:
+          client:
+            enabled: true
+        sampler:
+          probability: 1.0
+  mvc:
+    static-path-pattern: /**
+    resources:
+      static-locations: classpath:/static/
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://register-center:30020/eureka/
+    registry-fetch-interval-seconds: 5
+  instance:
+    lease-expiration-duration-in-seconds: 15
+    lease-renewal-interval-in-seconds: 5
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+# LCN 配置
+tm:
+  transaction:
+    netty:
+      delaytime: 5   # 客户端链接最大通讯时间 （秒）
+      hearttime: 15  # 客户端心跳时间   （秒）
+  redis:
+    savemaxtime: 30  # redis 保存时间  （秒）
+  socket:
+    port: 9998       # 通讯端口
+    maxconnection: 1000  #最大链接数
+  compensate:
+    auto: false   #是否自动补偿
+    notifyUrl: http://ip:port/path #补偿结果通知（配消息总线里面）
+    tryTime: 30     # z再次重试时间间隔
+    maxWaitTime: 5000   # 请求超时的最大时间 (毫秒)
+logging:
+  file:
+    path: logs/${spring.application.name}.log
