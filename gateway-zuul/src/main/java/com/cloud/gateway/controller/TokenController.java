@@ -8,6 +8,7 @@ import com.cloud.gateway.feign.UserClient;
 import com.cloud.gateway.utils.LogUtil;
 import com.cloud.model.log.SysLog;
 import com.cloud.model.user.constants.CredentialType;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -24,7 +25,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -315,6 +318,27 @@ public class TokenController
         Long endTime = System.currentTimeMillis();
         sysLog.setExecuteTime(String.valueOf(endTime - startTime));
         return sysLog;
+    }
+
+    /**
+     * 获取用户在线数
+     *
+     * @return
+     */
+    @ApiOperation(value = "获取用户在线数", notes = "获取用户在线数", response = R.class)
+    @GetMapping(value = "/getUserCount")
+    public R getUserCount() {
+        try {
+            // 获取所有的key
+            Set<String> keys = redisTemplate.keys(CommonConstants.CACHE_TOKEN + "*");
+            // 批量获取数据
+            List myObjectListRedis = redisTemplate.opsForValue().multiGet(keys);
+            return R.ok(myObjectListRedis.size());
+        } catch (Exception e) {
+            return R.failed(e.getMessage());
+
+        }
+
     }
 
 
