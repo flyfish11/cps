@@ -20,11 +20,12 @@
         <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
         <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+        <result column="password_update_time" jdbcType="TIMESTAMP" property="passwordUpdateTime"/>
     </resultMap>
 
     <sql id="Base_Column_List">
     id, avatar, account, `password`, `name`, sex, email, phone, roleid, deptid, `status`,
-    num, product_register_count, create_by, create_time, update_by, update_time, remarks
+    num, product_register_count, create_by, create_time, update_by, update_time, remarks, password_update_time
   </sql>
 
     <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -45,13 +46,13 @@
         `name`, sex, email, phone,
         roleid, deptid, `status`,
         num, product_register_count, create_by, create_time,
-        update_by, update_time, remarks
+        update_by, update_time, remarks, password_update_time
         )
         values (#{avatar,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
         #{name,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
         #{roleid,jdbcType=VARCHAR}, #{deptid,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
         #{num,jdbcType=INTEGER},#{productRegisterCount,jdbcType=INTEGER}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
-        #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}
+        #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}, #{passwordUpdateTime,jdbcType=TIMESTAMP}
         )
     </insert>
 
@@ -110,6 +111,9 @@
             <if test="remarks != null and remarks != ''">
                 remarks,
             </if>
+            <if test="passwordUpdateTime != null">
+                password_update_time,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="avatar != null and avatar != ''">
@@ -162,6 +166,9 @@
             </if>
             <if test="remarks != null and remarks != ''">
                 #{remarks,jdbcType=VARCHAR},
+            </if>
+            <if test="passwordUpdateTime != null">
+                #{passwordUpdateTime,jdbcType=TIMESTAMP},
             </if>
         </trim>
     </insert>
@@ -220,6 +227,9 @@
             <if test="remarks != null and remarks != ''">
                 remarks = #{remarks,jdbcType=VARCHAR},
             </if>
+            <if test="passwordUpdateTime != null">
+                password_update_time = #{passwordUpdateTime,jdbcType=TIMESTAMP},
+            </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
@@ -242,14 +252,15 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_by = #{updateBy,jdbcType=VARCHAR},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      remarks = #{remarks,jdbcType=VARCHAR}
+      remarks = #{remarks,jdbcType=VARCHAR},
+      password_update_time = #{passwordUpdateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
     <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
         insert into sys_user
         (avatar, account, `password`, `name`, sex, email, phone, roleid, deptid, `status`,
-        num, product_register_count, create_by, create_time, update_by, update_time, remarks)
+        num, product_register_count, create_by, create_time, update_by, update_time, remarks, password_update_time)
         values
         <foreach collection="list" item="item" separator=",">
             (#{item.avatar,jdbcType=VARCHAR}, #{item.account,jdbcType=VARCHAR}, #{item.password,jdbcType=VARCHAR},
@@ -260,7 +271,7 @@
             #{item.createBy,jdbcType=VARCHAR},
             #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateBy,jdbcType=VARCHAR},
             #{item.updateTime,jdbcType=TIMESTAMP},
-            #{item.remarks,jdbcType=VARCHAR})
+            #{item.remarks,jdbcType=VARCHAR}), #{item.passwordUpdateTime,jdbcType=TIMESTAMP}
         </foreach>
     </insert>
 

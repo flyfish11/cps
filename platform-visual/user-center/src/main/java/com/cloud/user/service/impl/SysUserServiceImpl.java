@@ -37,8 +37,6 @@ import java.util.stream.Collectors;
 @Service
 public class SysUserServiceImpl implements SysUserService {
 
-    public static final String RESET_PASSWORD_VAL = "P@ssw0rd";
-
     @Resource
     private SysUserDao sysUserDao;
 
@@ -131,6 +129,7 @@ public class SysUserServiceImpl implements SysUserService {
         }
         sysUser.setCreateTime(new Date());
         sysUser.setUpdateTime(sysUser.getCreateTime());
+        sysUser.setPasswordUpdateTime(sysUser.getCreateTime());
         return sysUser;
     }
 
@@ -169,6 +168,7 @@ public class SysUserServiceImpl implements SysUserService {
         BeanUtils.copyProperties(sysUserUpdateBO, sysUser);
         if (StringUtils.isNotBlank(sysUserUpdateBO.getPassword())) {
             sysUser.setPassword(passwordEncoder.encode(sysUser.getPassword()));
+            sysUser.setPasswordUpdateTime(new Date());
         }
         LoginAppUser user = AppUserUtil.getLoginAppUser();
         if (user != null) {
@@ -245,6 +245,9 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public R updatePassword(UpdatePwdBO updatePwdBO) {
+        if (!checkPwd(updatePwdBO.getNewPassword())) {
+            return R.failed("密码长度需为8位或8位以上，内容需包含大小写字母和数字！");
+        }
         LoginAppUser user = AppUserUtil.getLoginAppUser();
         if (user == null) {
             return R.failed("获取当前登录用户失败！");
@@ -253,11 +256,10 @@ public class SysUserServiceImpl implements SysUserService {
         if (!passwordEncoder.matches(updatePwdBO.getSourcePassword(), sysUser.getPassword())) {
             return R.failed("原密码错误！");
         }
-
         // 修改数据库中用户密码
         SysUserUpdateBO sysUserUpdateBO = new SysUserUpdateBO();
         sysUserUpdateBO.setId(sysUser.getId());
-        sysUserUpdateBO.setPassword(passwordEncoder.encode(updatePwdBO.getNewPassword()));
+        sysUserUpdateBO.setPassword(updatePwdBO.getNewPassword());
         updateSysUser(sysUserUpdateBO);
         log.info("用户修改密码：{}", sysUserUpdateBO);
 
@@ -286,14 +288,14 @@ public class SysUserServiceImpl implements SysUserService {
         // 修改数据库中用户密码
         SysUserUpdateBO sysUserUpdateBO = new SysUserUpdateBO();
         sysUserUpdateBO.setId(id);
-        sysUserUpdateBO.setPassword(passwordEncoder.encode(RESET_PASSWORD_VAL));
+        sysUserUpdateBO.setPassword(CommonConstants.DEFAULT_USER_PASSWORD);
         updateSysUser(sysUserUpdateBO);
         log.info("用户修改密码：{}", sysUserUpdateBO);
 
         // 更新 LDAP 中账户密码
         LdapUserUpdateBO ldapUserUpdateBO = LdapUserUpdateBO.builder()
                 .account(sysUser.getAccount())
-                .newPassword(RESET_PASSWORD_VAL)
+                .newPassword(CommonConstants.DEFAULT_USER_PASSWORD)
                 .build();
         R updateResult = this.ldapUserService.resetPassword(ldapUserUpdateBO);
         if (updateResult.getCode() == CommonConstants.SUCCESS) {
@@ -457,6 +459,24 @@ public class SysUserServiceImpl implements SysUserService {
     @Cacheable(value = "userData", key = "targetClass + methodName +#p0", unless = "#result == null")
     public SysUser queryByUserId(Integer userId) {
         return this.sysUserDao.selectById(userId);
+    }
+
+    /**
+     * 校验规则：
+     * 1. 密码长度要等于或大于8位；
+     * 2. 密码内容要同时包含大小写字母和数字，支持使用特殊字符；
+     */
+    private Boolean checkPwd(String newPassword) {
+        // 判断密码是否包含数字：包含返回1，不包含返回0
+        int i = newPassword.matches(".*\\d+.*") ? 1 : 0;
+        // 判断密码是否包含小写字母：包含返回1，不包含返回0
+        int j = newPassword.matches(".*[a-z]+.*") ? 1 : 0;
+        // 判断密码是否包含大写字母：包含返回1，不包含返回0
+        int k = newPassword.matches(".*[A-Z]+.*") ? 1 : 0;
+        if (i + j + k < 3 || newPassword.length() < 8) {
+            return false;
+        }
+        return true;
     }
 
 }

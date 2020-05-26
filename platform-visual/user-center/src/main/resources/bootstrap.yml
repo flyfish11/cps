@@ -58,6 +58,8 @@ management:
   health:
     ldap:
       enabled: off
+user:
+  remind-update-password-days: 30
 logging:
   file:
     path: logs/${spring.application.name}.log

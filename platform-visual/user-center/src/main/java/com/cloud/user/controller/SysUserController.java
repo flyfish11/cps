@@ -1,5 +1,7 @@
 package com.cloud.user.controller;
 
+import cn.hutool.core.date.DateUnit;
+import cn.hutool.core.date.DateUtil;
 import com.cloud.common.constants.CommonConstants;
 import com.cloud.common.constants.ServiceIdsConstants;
 import com.cloud.common.utils.AppUserUtil;
@@ -15,6 +17,7 @@ import com.cloud.model.user.SysUser;
 import com.cloud.model.user.bo.SysUserAddBO;
 import com.cloud.model.user.bo.SysUserUpdateBO;
 import com.cloud.model.user.bo.UpdatePwdBO;
+import com.cloud.model.user.vo.SysUserVo;
 import com.cloud.user.dto.AppUserDto;
 import com.cloud.user.exception.UserCenterException;
 import com.cloud.user.service.SysUserService;
@@ -23,7 +26,9 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -46,19 +51,34 @@ public class SysUserController {
     private RedisTemplate redisTemplate;
 
     /**
+     * 提醒更新密码天数
+     */
+    @Value("${user.remind-update-password-days}")
+    private Long remindUpdatePasswordDays;
+
+    /**
      * 当前登录用户 LoginAppUser
      *
      * @return
      */
-    @ApiOperation(value = "当前登录用户", notes = "当前登录用户LoginAppUser")
+    @ApiOperation(value = "当前登录用户", notes = "当前登录用户信息")
     @GetMapping("/current")
-    public SysUser getLoginAppUser() {
+    public SysUserVo getLoginAppUser() {
         SysUser loginAppUser = AppUserUtil.getSysUser();
+        SysUserVo sysUserVo = new SysUserVo();
         if (null != loginAppUser) {
             loginAppUser = this.sysUserService.queryByUserId(loginAppUser.getId());
-            loginAppUser.setPassword("");
+            BeanUtils.copyProperties(loginAppUser, sysUserVo);
+            if (Objects.nonNull(sysUserVo.getPasswordUpdateTime())) {
+                // 上次更新密码到今天距离的天数
+                long between = DateUtil.between(sysUserVo.getPasswordUpdateTime(), new Date(), DateUnit.DAY, true);
+                if (!Objects.equals(between, 0L)) {
+                    sysUserVo.setLastUpdatedPasswordDays(between);
+                    sysUserVo.setRemindUpdatePassword(between >= remindUpdatePasswordDays);
+                }
+            }
         }
-        return loginAppUser;
+        return sysUserVo;
     }
 
     @GetMapping("/userInfo")

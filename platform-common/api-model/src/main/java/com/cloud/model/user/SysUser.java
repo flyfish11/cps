@@ -130,4 +130,11 @@ public class SysUser implements Serializable {
     @ApiModelProperty(value = "备注", dataType = "String")
     private String remarks;
 
+    /**
+     * 密码更新时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    @ApiModelProperty(value = "密码更新时间", dataType = "Date")
+    private Date passwordUpdateTime;
+
 }

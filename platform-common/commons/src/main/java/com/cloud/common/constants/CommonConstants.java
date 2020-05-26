@@ -118,4 +118,9 @@ public final class CommonConstants {
      */
     public static final String APP_CLASSIFICATION_OF_APP_VALUE = "应用";
 
+    /**
+     * 用户默认密码
+     */
+    public static final String DEFAULT_USER_PASSWORD = "P@ssw0rd";
+
 }
