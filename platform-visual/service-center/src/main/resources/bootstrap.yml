@@ -1,0 +1,90 @@
+server:
+  port: 30030
+jasypt:
+  encryptor:
+    password: cloud-service
+spring:
+  application:
+    name: service-center
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        serviceId: config-center
+      profile: dev
+  mvc:
+    servlet:
+      load-on-startup: 1
+  aop:
+    proxy-target-class: true
+  zipkin:
+    base-url: http://zipkin-server:30411
+    locator:
+      discovery:
+        enabled: true
+    sender:
+      type: WEB
+      sleuth:
+        web:
+          client:
+            enabled: true
+        sampler:
+          probability: 1.0
+mybatis:
+  type-aliases-package: com.cloud.model.appmanagercenter
+  mapper-locations: classpath:/mybatis-mappers/*.xml
+  configuration:
+    mapUnderscoreToCamelCase: true
+security:
+  oauth2:
+    resource:
+      user-info-uri: http://gateway-zuul:30080/api/api-o/user-me
+      prefer-token-info: false
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://register-center:30020/eureka/
+    registry-fetch-interval-seconds: 5
+  instance:
+    lease-expiration-duration-in-seconds: 15
+    lease-renewal-interval-in-seconds: 5
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+logging:
+  file:
+    path: logs/${spring.application.name}.log
+baseServices:
+  - serviceId: config-center
+    port: 30011
+  - serviceId: user-center
+    port: 30012
+  - serviceId: oauth-center
+    port: 30013
+  - serviceId: app-manager-center
+    port: 30016
+  - serviceId: register-center
+    port: 30020
+  - serviceId: log-center
+    port: 30023
+  - serviceId: file-center
+    port: 30024
+  - serviceId: service-center
+    port: 30030
+  - serviceId: work-flow
+    port: 30040
+  - serviceId: gateway-zuul
+    port: 30080
+  - serviceId: zipkin-server
+    port: 30411
+  - serviceId: monitor-server
+    port: 30901

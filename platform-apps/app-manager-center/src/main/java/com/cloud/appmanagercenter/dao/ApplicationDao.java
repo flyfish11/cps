@@ -142,4 +142,7 @@ public interface ApplicationDao {
 
     List<Application> findAllByidInAndDelFlag(@Param("idCollection")Collection<Integer> idCollection,@Param("delFlag")Integer delFlag);
 
+    List<Application> selectAllByAppTypeInAndDelFlag(@Param("appTypeCollection")Collection<Integer> appTypeCollection,@Param("delFlag")Integer delFlag);
+
+
 }

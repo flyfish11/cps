@@ -61,6 +61,7 @@ INSERT INTO `gateway_api_define` VALUES ('日志中心', '/api/api-l/**', 'log-c
 INSERT INTO `gateway_api_define` VALUES ('用户中心', '/api/api-u/**', 'user-center', '', 0, 1, 1, '用户中心');
 INSERT INTO `gateway_api_define` VALUES ('网关模块', '/api/api-g/**', 'gateway-zuul', NULL, 0, 1, 1, '网关模块');
 INSERT INTO `gateway_api_define` VALUES ('认证中心', '/api/api-o/**', 'oauth-center', '', 0, 1, 1, '认证中心');
+INSERT INTO `gateway_api_define` VALUES ('服务中心', '/api/api-s/**', 'service-center', NULL, 0, 1, 1, '服务中心');
 COMMIT;
 
 -- ----------------------------
@@ -224,6 +225,7 @@ CREATE TABLE `sys_dict` (
 BEGIN;
 INSERT INTO `sys_dict` VALUES ('12f80dd3116948c09c9ab984a9d779d2', 'app_type', '应用类型', '2020-04-24 17:02:33', '2020-04-24 17:02:56', NULL, '0', '0');
 INSERT INTO `sys_dict` VALUES ('48f80dd3116948c09c9ab984a9d779f5', 'sys_sex', '性别', NULL, '2019-12-27 16:46:32', '男;女;未知', NULL, '0');
+INSERT INTO `sys_dict` VALUES ('26a670a1e710467fa95c12ac7b96db19', 'serviceGroup', '服务分组', '2019-12-27 16:46:32', '2019-12-27 16:46:32', 'Java;.NET Core;Python;其他', '0', '0');
 COMMIT;
 
 -- ----------------------------
@@ -260,6 +262,10 @@ INSERT INTO `sys_dict_item` VALUES ('896cc9f37e374a029013a768b73a5eb4', '12f80dd
 INSERT INTO `sys_dict_item` VALUES ('9as1751481004c6ba73d4f703a6cf2a3', '48f80dd3116948c09c9ab984a9d779f5', '1', '男', 'sys_sex', '男', 1, NULL, '2020-04-24 17:16:46', '男', '0');
 INSERT INTO `sys_dict_item` VALUES ('bad1751881004c6ba73d4f703a6cf2aw', '48f80dd3116948c09c9ab984a9d779f5', '2', '女', 'sys_sex', '女', 2, NULL, '2019-12-27 16:46:11', '女', '0');
 INSERT INTO `sys_dict_item` VALUES ('d55f43d0fa75455499edc589c19e915d', '12f80dd3116948c09c9ab984a9d779d2', '5', 'Mac应用', 'app_type', 'Mac应用', 5, NULL, '2020-04-27 13:56:35', 'Mac应用', '0');
+INSERT INTO `sys_dict_item` VALUES ('088ff582c9794423a43e0fe04b6f1e9d', '26a670a1e710467fa95c12ac7b96db19', '.NET Core', '.NET Core', 'serviceGroup', '.NET Core', 2, NULL, '2019-12-27 16:46:11', '.NET Core', '0');
+INSERT INTO `sys_dict_item` VALUES ('2a3e97f584264165a927f87dd964c521', '26a670a1e710467fa95c12ac7b96db19', 'Java', 'Java', 'serviceGroup', 'Java', 1, NULL, '2019-12-27 16:46:11', 'Java', '0');
+INSERT INTO `sys_dict_item` VALUES ('ae59e953672040e5adc778851fde5011', '26a670a1e710467fa95c12ac7b96db19', '其他', '其他', 'serviceGroup', '其他', 4, NULL, '2019-12-27 16:46:11', '其他', '0');
+INSERT INTO `sys_dict_item` VALUES ('bad1751881004c6ba73d4f703a6cf2ac', '26a670a1e710467fa95c12ac7b96db19', 'Python', 'Python', 'serviceGroup', 'Python', 3, NULL, '2019-12-27 16:46:11', 'Python', '0');
 COMMIT;
 
 -- ----------------------------
@@ -591,5 +597,52 @@ CREATE TABLE `t_user_application` (
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户应用关联表';
+
+-- ----------------------------
+-- Table structure for t_application_services
+-- ----------------------------
+DROP TABLE IF EXISTS `t_application_services`;
+CREATE TABLE `t_application_services` (
+  `id` int(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `application_id` int(20) DEFAULT NULL COMMENT '应用ID',
+  `application_name` varchar(64) DEFAULT NULL COMMENT '应用名称',
+  `application_alias_name` varchar(64) DEFAULT NULL COMMENT '应用别名(英文名称)',
+  `application_version` varchar(32) DEFAULT NULL COMMENT '应用版本号',
+  `service_id` int(20) DEFAULT NULL COMMENT '服务ID',
+  `service_name` varchar(128) DEFAULT NULL COMMENT '服务名称',
+  `service_alias_name` varchar(128) DEFAULT NULL COMMENT '服务别名(英文名称)',
+  `service_version` varchar(32) DEFAULT NULL COMMENT '服务版本号',
+  `delete_flag` int(11) DEFAULT '0' COMMENT '删除标记 0未删除，1已删除',
+  `created_by` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `created_time` datetime DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='应用服务关联表';
+
+-- ----------------------------
+-- Table structure for t_service
+-- ----------------------------
+DROP TABLE IF EXISTS `t_service`;
+CREATE TABLE `t_service` (
+  `id` int(20) NOT NULL AUTO_INCREMENT COMMENT '服务表主键',
+  `name` varchar(50) DEFAULT NULL COMMENT '服务名',
+  `short_name` varchar(30) DEFAULT NULL COMMENT '服务简称',
+  `description` text COMMENT '服务描述',
+  `service_unic_id` varchar(30) DEFAULT NULL COMMENT '服务识别id',
+  `belong_application` int(20) DEFAULT NULL COMMENT '服务所属应用外键id',
+  `service_group` varchar(100) DEFAULT NULL COMMENT '服务分组外键id',
+  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(50) DEFAULT NULL COMMENT '修改人',
+  `update_timre` datetime DEFAULT NULL COMMENT '修改时间',
+  `is_delete` int(10) DEFAULT '0' COMMENT '删除标记',
+  `jenkinslog` mediumblob COMMENT '构建日志',
+  `jar_addr` varchar(255) DEFAULT NULL COMMENT '服务jar包地址',
+  `type` varchar(255) DEFAULT NULL COMMENT '服务类型（jar ：j上传jar包的项目；gitlab ：从gitlab拉取源码的项目）',
+  `service_port` varchar(255) DEFAULT NULL COMMENT '服务端口',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `service_unic_id_index` (`service_unic_id`) USING BTREE,
+  KEY `service_group_restrain` (`service_group`) USING BTREE,
+  KEY `belong_application_restrain` (`belong_application`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 SET FOREIGN_KEY_CHECKS = 1;

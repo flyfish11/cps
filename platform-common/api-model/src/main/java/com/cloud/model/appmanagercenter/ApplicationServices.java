@@ -18,11 +18,12 @@ import java.util.Date;
 @ToString
 @ApiModel(description = "工业应用服务关联表实体")
 public class ApplicationServices {
+
     /**
      * 主键ID
      */
-    @ApiModelProperty(value = "主键id", dataType = "String")
-    private String id;
+    @ApiModelProperty(value = "主键id", dataType = "int")
+    private Integer id;
 
     /**
      * 应用ID
@@ -51,8 +52,8 @@ public class ApplicationServices {
     /**
      * 服务ID
      */
-    @ApiModelProperty(value = "服务id", dataType = "String")
-    private String serviceId;
+    @ApiModelProperty(value = "服务id", dataType = "int")
+    private Integer serviceId;
 
     /**
      * 服务名称
@@ -90,4 +91,5 @@ public class ApplicationServices {
     @ApiModelProperty(value = "创建时间", dataType = "Date")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createdTime;
+
 }

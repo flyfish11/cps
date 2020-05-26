@@ -536,4 +536,18 @@ public class ApplicationServiceImpl implements ApplicationService {
         return userIdSet;
     }
 
+    @Override
+    public R listByType(String appType) {
+        List<Integer> integers = apptypeStr2List(appType);
+        List<Application> applications = this.applicationDao.selectAllByAppTypeInAndDelFlag(integers, YesOrNoEnum.NO.getType());
+        return R.ok(applications);
+    }
+
+    public List<Integer> apptypeStr2List(String appType) {
+        String[] types = appType.split(",");
+        List<Integer> integers = Arrays.stream(types)
+                .map(arr -> Integer.valueOf(arr)).collect(Collectors.toList());
+        return integers;
+    }
+
 }

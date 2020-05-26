@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.service.dao.ServiceInfoDao">
+    <resultMap id="BaseResultMap" type="com.cloud.model.appmanagercenter.ServiceInfo">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="short_name" jdbcType="VARCHAR" property="shortName"/>
+        <result column="description" jdbcType="LONGVARCHAR" property="description"/>
+        <result column="service_unic_id" jdbcType="VARCHAR" property="serviceUnicId"/>
+        <result column="belong_application" jdbcType="INTEGER" property="belongApplication"/>
+        <result column="service_group" jdbcType="VARCHAR" property="serviceGroup"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
+        <result column="update_timre" jdbcType="TIMESTAMP" property="updateTimre"/>
+        <result column="is_delete" jdbcType="INTEGER" property="isDelete"/>
+        <result column="jenkinslog" jdbcType="BLOB" property="jenkinslog"/>
+        <result column="jar_addr" jdbcType="VARCHAR" property="jarAddr"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="service_port" jdbcType="VARCHAR" property="servicePort"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, `name`, short_name, description, service_unic_id, belong_application, service_group, 
+    create_by, create_time, update_by, update_timre, is_delete, jenkinslog, jar_addr, 
+    `type`, service_port
+  </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_service
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_service
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+    <insert id="insert" parameterType="com.cloud.model.appmanagercenter.ServiceInfo" useGeneratedKeys="true">
+    insert into t_service (`name`, short_name,
+      description, service_unic_id, belong_application, 
+      service_group, create_by, create_time, 
+      update_by, update_timre, is_delete, 
+      jenkinslog, jar_addr, `type`, 
+      service_port)
+    values (#{name,jdbcType=VARCHAR}, #{shortName,jdbcType=VARCHAR},
+      #{description,jdbcType=LONGVARCHAR}, #{serviceUnicId,jdbcType=VARCHAR}, #{belongApplication,jdbcType=INTEGER}, 
+      #{serviceGroup,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR}, #{updateTimre,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER}, 
+      #{jenkinslog,jdbcType=BLOB}, #{jarAddr,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{servicePort,jdbcType=VARCHAR})
+  </insert>
+
+    <insert id="insertSelective" parameterType="com.cloud.model.appmanagercenter.ServiceInfo" useGeneratedKeys="true">
+        insert into t_service
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">
+                `name`,
+            </if>
+            <if test="shortName != null and shortName != ''">
+                short_name,
+            </if>
+            <if test="description != null and description != ''">
+                description,
+            </if>
+            <if test="serviceUnicId != null and serviceUnicId != ''">
+                service_unic_id,
+            </if>
+            <if test="belongApplication != null">
+                belong_application,
+            </if>
+            <if test="serviceGroup != null and serviceGroup != ''">
+                service_group,
+            </if>
+            <if test="createBy != null and createBy != ''">
+                create_by,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                update_by,
+            </if>
+            <if test="updateTimre != null">
+                update_timre,
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+            <if test="jenkinslog != null">
+                jenkinslog,
+            </if>
+            <if test="jarAddr != null and jarAddr != ''">
+                jar_addr,
+            </if>
+            <if test="type != null and type != ''">
+                `type`,
+            </if>
+            <if test="servicePort != null and servicePort != ''">
+                service_port,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="shortName != null and shortName != ''">
+                #{shortName,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null and description != ''">
+                #{description,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="serviceUnicId != null and serviceUnicId != ''">
+                #{serviceUnicId,jdbcType=VARCHAR},
+            </if>
+            <if test="belongApplication != null">
+                #{belongApplication,jdbcType=INTEGER},
+            </if>
+            <if test="serviceGroup != null and serviceGroup != ''">
+                #{serviceGroup,jdbcType=VARCHAR},
+            </if>
+            <if test="createBy != null and createBy != ''">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTimre != null">
+                #{updateTimre,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=INTEGER},
+            </if>
+            <if test="jenkinslog != null">
+                #{jenkinslog,jdbcType=BLOB},
+            </if>
+            <if test="jarAddr != null and jarAddr != ''">
+                #{jarAddr,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null and type != ''">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="servicePort != null and servicePort != ''">
+                #{servicePort,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.cloud.model.appmanagercenter.ServiceInfo">
+        update t_service
+        <set>
+            <if test="name != null and name != ''">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="shortName != null and shortName != ''">
+                short_name = #{shortName,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="serviceUnicId != null and serviceUnicId != ''">
+                service_unic_id = #{serviceUnicId,jdbcType=VARCHAR},
+            </if>
+            <if test="belongApplication != null">
+                belong_application = #{belongApplication,jdbcType=INTEGER},
+            </if>
+            <if test="serviceGroup != null and serviceGroup != ''">
+                service_group = #{serviceGroup,jdbcType=VARCHAR},
+            </if>
+            <if test="createBy != null and createBy != ''">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTimre != null">
+                update_timre = #{updateTimre,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete,jdbcType=INTEGER},
+            </if>
+            <if test="jenkinslog != null">
+                jenkinslog = #{jenkinslog,jdbcType=BLOB},
+            </if>
+            <if test="jarAddr != null and jarAddr != ''">
+                jar_addr = #{jarAddr,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null and type != ''">
+                `type` = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="servicePort != null and servicePort != ''">
+                service_port = #{servicePort,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.cloud.model.appmanagercenter.ServiceInfo">
+    update t_service
+    set `name` = #{name,jdbcType=VARCHAR},
+      short_name = #{shortName,jdbcType=VARCHAR},
+      description = #{description,jdbcType=LONGVARCHAR},
+      service_unic_id = #{serviceUnicId,jdbcType=VARCHAR},
+      belong_application = #{belongApplication,jdbcType=INTEGER},
+      service_group = #{serviceGroup,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_timre = #{updateTimre,jdbcType=TIMESTAMP},
+      is_delete = #{isDelete,jdbcType=INTEGER},
+      jenkinslog = #{jenkinslog,jdbcType=BLOB},
+      jar_addr = #{jarAddr,jdbcType=VARCHAR},
+      `type` = #{type,jdbcType=VARCHAR},
+      service_port = #{servicePort,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <select id="findList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_service
+        <where>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="shortName != null and shortName != ''">
+                and short_name = LIKE CONCAT('%',#{shortName},'%')
+            </if>
+            <if test="isDelete != null">
+                and is_delete = #{isDelete}
+            </if>
+        </where>
+        order by create_time desc
+        <if test="start != null and length!=null">
+            limit #{start}, #{length}
+        </if>
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from t_service
+        <where>
+            <if test="name != null and name != ''">
+                and name = LIKE CONCAT('%',#{name},'%')
+            </if>
+            <if test="shortName != null and shortName != ''">
+                and short_name = LIKE CONCAT('%',#{shortName},'%')
+            </if>
+            <if test="isDelete != null">
+                and is_delete = #{isDelete}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectOneByNameAndIsDelete" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_service
+        where `name`=#{name,jdbcType=VARCHAR} and is_delete=#{isDelete,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectOneByServicePortAndIsDelete" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_service
+        where service_port=#{servicePort,jdbcType=VARCHAR} and is_delete=#{isDelete,jdbcType=INTEGER}
+    </select>
+
+</mapper>

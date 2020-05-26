@@ -141,6 +141,12 @@ public class ApplicationController {
         return this.applicationService.getAppClassification();
     }
 
+    @GetMapping("/listByType/{appType}")
+    @ApiOperation(value = "查询应用列表", notes = "根据应用类别查询应用列表", response = R.class)
+    public R listByType(@PathVariable(value = "appType") String appType) {
+        return this.applicationService.listByType(appType);
+    }
+
     @GetMapping("/index/navigationBarApps")
     @ApiImplicitParam(name = "appClassification", value = "应用分类", required = true, dataType = "int", paramType = "query")
     @ApiOperation(value = "首页导航栏应用列表", notes = "首页导航栏应用列表")

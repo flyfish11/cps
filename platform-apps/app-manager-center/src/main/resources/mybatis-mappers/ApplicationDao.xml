@@ -514,4 +514,16 @@
         and del_flag=#{delFlag,jdbcType=INTEGER}
     </select>
 
+    <select id="selectAllByAppTypeInAndDelFlag" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_application
+        where app_type in
+        <foreach item="item" index="index" collection="appTypeCollection"
+                 open="(" separator="," close=")">
+            #{item,jdbcType=INTEGER}
+        </foreach>
+        and del_flag=#{delFlag,jdbcType=INTEGER}
+    </select>
+
 </mapper>

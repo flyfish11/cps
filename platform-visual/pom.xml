@@ -19,5 +19,6 @@
         <module>user-center</module>
         <module>zipkin-server</module>
         <module>tx-manager</module>
+        <module>service-center</module>
     </modules>
 </project>

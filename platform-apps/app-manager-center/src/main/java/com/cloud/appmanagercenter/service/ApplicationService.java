@@ -130,4 +130,12 @@ public interface ApplicationService {
      */
     List<AppClassificationVO> getAppClassification();
 
+    /**
+     * 根据应用类别查询应用列表
+     *
+     * @param appType
+     * @return
+     */
+    R listByType(String appType);
+
 }
