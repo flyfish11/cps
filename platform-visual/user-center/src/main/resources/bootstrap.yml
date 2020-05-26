@@ -58,6 +58,7 @@ management:
   health:
     ldap:
       enabled: off
+## 提醒更新密码天数
 user:
   remind-update-password-days: 30
 logging:
