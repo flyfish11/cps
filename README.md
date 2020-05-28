@@ -4,7 +4,7 @@
 ├── gateway-zuul                    --网关模块  
 ├── oauth-center                    --授权中心  
 ├── platform-apps                   --微服务应用归集  
-│   └── app-manager-center          --服务管理中心微服务  
+│   └── platform-app-manager          --服务管理中心微服务  
 ├── platform-common                 --平台基础服务归集  
 │   ├── api-model                   --公共实体模块  
 │   ├── commons                     --系统公共模块  
@@ -15,7 +15,7 @@
 │   ├── log-center                  --日志中心  
 │   ├── monitor-center              --监控中心   
 │   ├── tx-manager                  --分布式事务管理模块  
-│   ├── user-center                 --用户中心   
+│   ├── platform-user                 --用户中心   
 │   └── zipkin-server               --调用链拓扑  
 └── register-center                 --注册中心  
 

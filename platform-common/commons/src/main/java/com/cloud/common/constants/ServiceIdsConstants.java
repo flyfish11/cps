@@ -14,11 +14,11 @@ public abstract class ServiceIdsConstants {
 
     public static final String OAUTH_CENTER = "oauth-center";
 
-    public static final String USER_CENTER = "user-center";
+    public static final String USER_CENTER = "platform-user";
 
     public static final String GATEWAY_ZUUL = "gateway-zuul";
 
-    public static final String APP_MANAGER_CENTER = "app-manager-center";
+    public static final String APP_MANAGER_CENTER = "platform-app-manager";
 
     public static final String SERVICE_CENTER = "service-center";
 

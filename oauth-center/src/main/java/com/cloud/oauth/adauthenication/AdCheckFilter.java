@@ -2,22 +2,16 @@ package com.cloud.oauth.adauthenication;
 
 import com.cloud.common.constants.CommonConstants;
 import com.cloud.common.utils.R;
-import com.cloud.model.user.bo.LdapUserBO;
+import com.cloud.model.platformuser.bo.LdapUserBO;
 import com.cloud.oauth.feign.UserClient;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.naming.*;
-import javax.naming.directory.*;
-import javax.naming.ldap.Control;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

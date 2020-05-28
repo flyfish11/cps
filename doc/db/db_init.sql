@@ -55,10 +55,10 @@ CREATE TABLE `gateway_api_define` (
 -- Records of gateway_api_define
 -- ----------------------------
 BEGIN;
-INSERT INTO `gateway_api_define` VALUES ('应用管理中心', '/api/api-a/**', 'app-manager-center', NULL, 0, 1, 1, '应用管理中心');
+INSERT INTO `gateway_api_define` VALUES ('应用管理中心', '/api/api-pam/**', 'platform-app-manager', NULL, 0, 1, 1, '应用管理中心');
 INSERT INTO `gateway_api_define` VALUES ('文件中心', '/api/api-f/**', 'file-center', NULL, 0, 1, 1, '文件中心');
 INSERT INTO `gateway_api_define` VALUES ('日志中心', '/api/api-l/**', 'log-center', NULL, 0, 1, 1, '日志中心');
-INSERT INTO `gateway_api_define` VALUES ('用户中心', '/api/api-u/**', 'user-center', '', 0, 1, 1, '用户中心');
+INSERT INTO `gateway_api_define` VALUES ('平台用户服务', '/api/api-u/**', 'platform-user', '', 0, 1, 1, '用户中心');
 INSERT INTO `gateway_api_define` VALUES ('网关模块', '/api/api-g/**', 'gateway-zuul', NULL, 0, 1, 1, '网关模块');
 INSERT INTO `gateway_api_define` VALUES ('认证中心', '/api/api-o/**', 'oauth-center', '', 0, 1, 1, '认证中心');
 INSERT INTO `gateway_api_define` VALUES ('服务中心', '/api/api-s/**', 'service-center', NULL, 0, 1, 1, '服务中心');

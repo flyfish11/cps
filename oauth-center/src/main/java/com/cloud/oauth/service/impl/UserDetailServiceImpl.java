@@ -4,7 +4,7 @@ package com.cloud.oauth.service.impl;
 import cn.hutool.json.JSONUtil;
 import com.cloud.common.utils.R;
 import com.cloud.model.user.LoginAppUser;
-import com.cloud.model.user.constants.CredentialType;
+import com.cloud.model.platformuser.constants.CredentialType;
 import com.cloud.oauth.feign.SmsClient;
 import com.cloud.oauth.feign.UserClient;
 import lombok.extern.slf4j.Slf4j;
@@ -65,7 +65,7 @@ public class UserDetailServiceImpl implements UserDetailsService
             }
         }
         else {
-            throw new RuntimeException("user-center 调用异常");
+            throw new RuntimeException("platform-user 调用异常");
         }
 
         return loginAppUser;

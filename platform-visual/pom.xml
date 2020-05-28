@@ -16,7 +16,7 @@
         <module>file-center</module>
         <module>log-center</module>
         <module>monitor-center</module>
-        <module>user-center</module>
+        <module>platform-user</module>
         <module>zipkin-server</module>
         <module>tx-manager</module>
         <module>service-center</module>

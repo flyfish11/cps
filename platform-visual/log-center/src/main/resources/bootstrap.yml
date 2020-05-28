@@ -10,7 +10,10 @@ spring:
         serviceId: config-center
       profile: dev
   zipkin:
+    ## zipkin server 地址
     base-url: http://zipkin-server:30411
+    discovery-client-enabled: false
+    ## 支持通过服务发现定位主机名
     locator:
       discovery:
         enabled: true
@@ -21,7 +24,8 @@ spring:
           client:
             enabled: true
         sampler:
-          probability: 1.0
+          ## 采样率百分之十
+          probability: 0.1
   mvc:
     servlet:
       load-on-startup: 1

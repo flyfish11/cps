@@ -1,8 +1,7 @@
 package com.cloud.oauth.feign;
 
 import com.cloud.common.utils.R;
-import com.cloud.model.user.bo.LdapUserBO;
-import org.apache.catalina.User;
+import com.cloud.model.platformuser.bo.LdapUserBO;
 
 public class UserClientFallback implements UserClient
 {

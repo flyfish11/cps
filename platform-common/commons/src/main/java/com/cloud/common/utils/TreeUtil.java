@@ -4,7 +4,7 @@ import com.cloud.common.vo.MenuTree;
 import com.cloud.common.vo.MenuTreeNode;
 import com.cloud.common.vo.TreeNode;
 import com.cloud.common.vo.TreeNodeString;
-import com.cloud.model.user.SysDept;
+import com.cloud.model.platformuser.SysDept;
 import lombok.experimental.UtilityClass;
 import org.springframework.util.CollectionUtils;
 

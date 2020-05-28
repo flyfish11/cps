@@ -13,6 +13,6 @@
     </parent>
 
     <modules>
-        <module>app-manager-center</module>
+        <module>platform-app-manager</module>
     </modules>
 </project>
