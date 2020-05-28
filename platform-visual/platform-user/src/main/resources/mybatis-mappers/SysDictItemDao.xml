@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.platformuser.dao.SysDictItemDao">
+    <resultMap type="com.cloud.model.platformuser.SysDictItem" id="SysDictItemMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="dictId" column="dict_id" jdbcType="VARCHAR"/>
+        <result property="value" column="value" jdbcType="VARCHAR"/>
+        <result property="label" column="label" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="sort" column="sort" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+        <result property="delFlag" column="del_flag" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="findValueAndLabelByTypeAndDelFlagResult"
+               type="com.cloud.model.platformuser.vo.SysDictItemVO">
+        <result column="value" property="value"/>
+        <result column="label" property="label"/>
+    </resultMap>
+
+    <!--定义所有字段 sql 片段-->
+    <sql id="Base_Column_List">
+        id, dict_id, value, label, type, description, sort, create_time, update_time, remarks, del_flag
+    </sql>
+
+    <!--定义动态查询 sql 片段-->
+    <sql id="BaseWhere">
+        <where>
+            <if test="dictId != null and dictId != ''">
+                and dict_id LIKE CONCAT('%',#{dictId},'%')
+            </if>
+            <if test="value != null and value != ''">
+                and value LIKE CONCAT('%',#{value},'%')
+            </if>
+            <if test="label != null and label != ''">
+                and label LIKE CONCAT('%',#{label},'%')
+            </if>
+            <if test="type != null and type != ''">
+                and type LIKE CONCAT('%',#{type},'%')
+            </if>
+            <if test="description != null and description != ''">
+                and description LIKE CONCAT('%',#{description},'%')
+            </if>
+            <if test="sort != null">
+                and sort LIKE CONCAT('%',#{sort},'%')
+            </if>
+            <if test="createTime != null">
+                and create_time LIKE CONCAT('%',#{createTime},'%')
+            </if>
+            <if test="updateTime != null">
+                and update_time LIKE CONCAT('%',#{updateTime},'%')
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks LIKE CONCAT('%',#{remarks},'%')
+            </if>
+            <if test="delFlag != null and delFlag != ''">
+                and del_flag LIKE CONCAT('%',#{delFlag},'%')
+            </if>
+        </where>
+    </sql>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SysDictItemMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dict_item
+        where id = #{id}
+    </select>
+
+    <!--查询单个-->
+    <select id="queryByDictId" resultMap="SysDictItemMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dict_item
+        where dict_id = #{dictId}
+        order by sort
+    </select>
+
+    <!--查询单个-->
+    <select id="queryByDictType" resultMap="SysDictItemMap">
+        select
+        b.*
+        from sys_dict a
+        left join sys_dict_item b
+        on a.id=b.dict_id
+        where a.type=#{dictType}
+        order by sort
+    </select>
+
+    <!--查询数据总有条数-->
+    <select id="count" resultType="long">
+        select count(*) from sys_dict_item
+    </select>
+
+    <!--分页查询所有-->
+    <select id="queryAllByLimit" resultMap="SysDictItemMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dict_item
+        <include refid="BaseWhere"/>
+        order by sort
+        limit #{start}, #{length}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="SysDictItemMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dict_item
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="dictId != null and dictId != ''">
+                and dict_id = #{dictId}
+            </if>
+            <if test="value != null and value != ''">
+                and value = #{value}
+            </if>
+            <if test="label != null and label != ''">
+                and label = #{label}
+            </if>
+            <if test="type != null and type != ''">
+                and type = #{type}
+            </if>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
+            <if test="sort != null">
+                and sort = #{sort}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="delFlag != null and delFlag != ''">
+                and del_flag = #{delFlag}
+            </if>
+        </where>
+        order by sort
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into sys_dict_item(id, dict_id, value, label, type, description, sort, create_time,
+        update_time, remarks, del_flag)
+        values (#{id}, #{dictId}, #{value}, #{label}, #{type}, #{description}, #{sort}, #{createTime}, #{updateTime},
+        #{remarks}, #{delFlag})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update sys_dict_item
+        <set>
+            <if test="dictId != null and dictId != ''">
+                dict_id = #{dictId},
+            </if>
+            <if test="value != null and value != ''">
+                value = #{value},
+            </if>
+            <if test="label != null and label != ''">
+                label = #{label},
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="sort != null">
+                sort = #{sort},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks = #{remarks},
+            </if>
+            <if test="delFlag != null and delFlag != ''">
+                del_flag = #{delFlag},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from sys_dict_item where id = #{id}
+    </delete>
+
+    <select id="findAllByTypeAndDelFlag" resultMap="findValueAndLabelByTypeAndDelFlagResult">
+        select `value`, `label`
+        from sys_dict_item
+        where `type`=#{type,jdbcType=VARCHAR} and del_flag=#{delFlag,jdbcType=VARCHAR}
+        order by sort
+    </select>
+
+</mapper>

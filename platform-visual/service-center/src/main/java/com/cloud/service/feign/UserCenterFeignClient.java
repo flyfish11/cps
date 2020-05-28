@@ -1,6 +1,6 @@
 package com.cloud.service.feign;
 
-import com.cloud.model.user.SysDictItem;
+import com.cloud.model.platformuser.SysDictItem;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,7 +14,7 @@ import java.util.List;
  * @author yulj
  * @create: 2019/05/22 00:06
  */
-@FeignClient(value = "user-center", name = "user-center")
+@FeignClient(value = "platform-user", name = "platform-user")
 public interface UserCenterFeignClient {
 
     @RequestMapping(value = "/dept/queryDeptNames", method = RequestMethod.GET)

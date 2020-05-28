@@ -1,6 +1,6 @@
 package com.cloud.service.service;
 
-import com.cloud.model.appmanagercenter.ServiceInfo;
+import com.cloud.model.platformappmanager.ServiceInfo;
 import com.cloud.model.common.Page;
 import com.cloud.model.common.Result;
 import com.cloud.service.dto.ServiceInfoDto;

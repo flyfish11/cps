@@ -1,15 +1,10 @@
 package com.cloud.service.feign;
 
 import com.cloud.common.utils.R;
-import com.cloud.model.appmanagercenter.Application;
-import com.cloud.model.appmanagercenter.ApplicationServices;
-import com.cloud.model.appmanagercenter.bo.ApplicationUpdateBO;
+import com.cloud.model.platformappmanager.ApplicationServices;
+import com.cloud.model.platformappmanager.bo.ApplicationUpdateBO;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
-
-import javax.validation.Valid;
 
 /**
  * @Classname ApplicationFeignClient
@@ -17,7 +12,7 @@ import javax.validation.Valid;
  * @Author yulj
  * @Date: 2019/07/12 10:39
  */
-@FeignClient(value = "app-manager-center", name = "app-manager-center")
+@FeignClient(value = "platform-app-manager", name = "platform-app-manager")
 public interface ApplicationFeignClient {
 
     @GetMapping("/application/load")

@@ -1,7 +1,7 @@
 package com.cloud.service.dao;
 import org.apache.ibatis.annotations.Param;
 
-import com.cloud.model.appmanagercenter.ServiceInfo;
+import com.cloud.model.platformappmanager.ServiceInfo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

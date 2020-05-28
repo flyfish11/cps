@@ -20,7 +20,10 @@ spring:
   aop:
     proxy-target-class: true
   zipkin:
+    ## zipkin server 地址
     base-url: http://zipkin-server:30411
+    discovery-client-enabled: false
+    ## 支持通过服务发现定位主机名
     locator:
       discovery:
         enabled: true
@@ -31,7 +34,8 @@ spring:
           client:
             enabled: true
         sampler:
-          probability: 1.0
+          ## 采样率百分之十
+          probability: 0.1
 mybatis:
   type-aliases-package: com.cloud.model.appmanagercenter
   mapper-locations: classpath:/mybatis-mappers/*.xml
@@ -66,12 +70,12 @@ logging:
 baseServices:
   - serviceId: config-center
     port: 30011
-  - serviceId: user-center
-    port: 30012
+  - serviceId: platform-user
+    port: 30031
   - serviceId: oauth-center
     port: 30013
-  - serviceId: app-manager-center
-    port: 30016
+  - serviceId: platform-app-manager
+    port: 30312
   - serviceId: register-center
     port: 30020
   - serviceId: log-center

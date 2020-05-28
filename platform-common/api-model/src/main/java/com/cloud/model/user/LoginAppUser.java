@@ -1,5 +1,7 @@
 package com.cloud.model.user;
 
+import com.cloud.model.platformuser.SysRole;
+import com.cloud.model.platformuser.SysUser;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -42,7 +44,7 @@ public class LoginAppUser extends SysUser implements UserDetails {
 
         if (!CollectionUtils.isEmpty(permissions)) {
             permissions.parallelStream().forEach(per ->
-                collection.add(new SimpleGrantedAuthority(per))
+                    collection.add(new SimpleGrantedAuthority(per))
             );
         }
 

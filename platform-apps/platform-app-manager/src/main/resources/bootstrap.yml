@@ -1,0 +1,71 @@
+server:
+  port: 30312
+spring:
+  application:
+    name: platform-app-manager
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        serviceId: config-center
+      profile: dev
+  zipkin:
+    ## zipkin server 地址
+    base-url: http://zipkin-server:30411
+    discovery-client-enabled: false
+    ## 支持通过服务发现定位主机名
+    locator:
+      discovery:
+        enabled: true
+    sender:
+      type: WEB
+      sleuth:
+        web:
+          client:
+            enabled: true
+        sampler:
+          ## 采样率百分之十
+          probability: 0.1
+  mvc:
+    servlet:
+      load-on-startup: 1
+  aop:
+    proxy-target-class: true
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://register-center:30020/eureka/
+    registry-fetch-interval-seconds: 5
+  instance:
+    lease-expiration-duration-in-seconds: 15
+    lease-renewal-interval-in-seconds: 5
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+    hostname: register-center
+mybatis:
+  type-aliases-package: com.cloud.model.appmanage
+  mapper-locations: classpath:/mybatis-mappers/*
+  configuration:
+    mapUnderscoreToCamelCase: true
+security:
+  oauth2:
+    resource:
+      user-info-uri: http://gateway-zuul:30080/api/api-o/user-me
+      prefer-token-info: false
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+#ribbon的超时时间
+ribbon:
+  ReadTimeout: 30000
+  ConnectTimeout: 30000
+logging:
+  file:
+    path: logs/${spring.application.name}.log

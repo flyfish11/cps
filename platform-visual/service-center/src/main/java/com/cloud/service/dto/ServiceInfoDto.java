@@ -1,6 +1,6 @@
 package com.cloud.service.dto;
 
-import com.cloud.model.appmanagercenter.ServiceInfo;
+import com.cloud.model.platformappmanager.ServiceInfo;
 import lombok.Data;
 
 /**

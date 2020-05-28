@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.platformappmanager.dao.ApplicationServicesDao">
+    <resultMap id="BaseResultMap" type="com.cloud.model.platformappmanager.ApplicationServices">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="application_id" jdbcType="INTEGER" property="applicationId"/>
+        <result column="application_name" jdbcType="VARCHAR" property="applicationName"/>
+        <result column="application_alias_name" jdbcType="VARCHAR" property="applicationAliasName"/>
+        <result column="application_version" jdbcType="VARCHAR" property="applicationVersion"/>
+        <result column="service_id" jdbcType="INTEGER" property="serviceId"/>
+        <result column="service_name" jdbcType="VARCHAR" property="serviceName"/>
+        <result column="service_alias_name" jdbcType="VARCHAR" property="serviceAliasName"/>
+        <result column="service_version" jdbcType="VARCHAR" property="serviceVersion"/>
+        <result column="delete_flag" jdbcType="INTEGER" property="deleteFlag"/>
+        <result column="created_by" jdbcType="VARCHAR" property="createdBy"/>
+        <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+            id,
+            application_id,
+            application_name,
+            application_alias_name,
+            application_version,
+            service_id,
+            service_name,
+            service_alias_name,
+            service_version,
+            delete_flag,
+            created_by,
+            created_time
+    </sql>
+
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_application_services
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete
+        from t_application_services
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insert" parameterType="com.cloud.model.platformappmanager.ApplicationServices" useGeneratedKeys="true">
+        insert into t_application_services (application_id,
+        application_name,application_alias_name,application_version,
+        service_id, service_name, service_alias_name,
+        service_version, delete_flag, created_by,
+        created_time)
+        values (#{applicationId,jdbcType=INTEGER},#{applicationName,jdbcType=VARCHAR},
+        #{applicationAliasName,jdbcType=VARCHAR},#{applicationVersion,jdbcType=VARCHAR},
+        #{serviceId,jdbcType=INTEGER}, #{serviceName,jdbcType=VARCHAR}, #{serviceAliasName,jdbcType=VARCHAR},
+        #{serviceVersion,jdbcType=VARCHAR}, #{deleteFlag,jdbcType=INTEGER}, #{createdBy,jdbcType=VARCHAR},
+        #{createdTime,jdbcType=TIMESTAMP})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.cloud.model.platformappmanager.ApplicationServices" useGeneratedKeys="true">
+        insert into t_application_services
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="applicationId != null">
+                application_id,
+            </if>
+            <if test="applicationName != null and applicationName != ''">
+                application_name,
+            </if>
+            <if test="applicationAliasName != null and applicationAliasName != ''">
+                application_alias_name,
+            </if>
+            <if test="applicationVersion != null and applicationVersion != ''">
+                application_version,
+            </if>
+            <if test="serviceId != null">
+                service_id,
+            </if>
+            <if test="serviceName != null and serviceName != ''">
+                service_name,
+            </if>
+            <if test="serviceAliasName != null and serviceAliasName != ''">
+                service_alias_name,
+            </if>
+            <if test="serviceVersion != null and serviceVersion != ''">
+                service_version,
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag,
+            </if>
+            <if test="createdBy != null and createdBy != ''">
+                created_by,
+            </if>
+            <if test="createdTime != null">
+                created_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="applicationId != null">
+                #{applicationId,jdbcType=INTEGER},
+            </if>
+            <if test="applicationName != null and applicationName != ''">
+                #{applicationName,jdbcType=VARCHAR},
+            </if>
+            <if test="applicationAliasName != null and applicationAliasName != ''">
+                #{applicationAliasName,jdbcType=VARCHAR},
+            </if>
+            <if test="applicationVersion != null and applicationVersion != ''">
+                #{applicationVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="serviceId != null">
+                #{serviceId,jdbcType=INTEGER},
+            </if>
+            <if test="serviceName != null and serviceName != ''">
+                #{serviceName,jdbcType=VARCHAR},
+            </if>
+            <if test="serviceAliasName != null and serviceAliasName != ''">
+                #{serviceAliasName,jdbcType=VARCHAR},
+            </if>
+            <if test="serviceVersion != null and serviceVersion != ''">
+                #{serviceVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag,jdbcType=INTEGER},
+            </if>
+            <if test="createdBy != null and createdBy != ''">
+                #{createdBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createdTime != null">
+                #{createdTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByIdSelective" parameterType="com.cloud.model.platformappmanager.ApplicationServices">
+        update t_application_services
+        <set>
+            <if test="applicationId != null">
+                application_id = #{applicationId,jdbcType=INTEGER},
+            </if>
+            <if test="applicationName != null and applicationName != ''">
+                application_name = #{applicationName,jdbcType=VARCHAR},
+            </if>
+            <if test="applicationAliasName != null and applicationAliasName != ''">
+                application_alias_name = #{applicationAliasName,jdbcType=VARCHAR},
+            </if>
+            <if test="applicationVersion != null and applicationVersion != ''">
+                application_version = #{applicationVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="serviceId != null">
+                service_id = #{serviceId,jdbcType=INTEGER},
+            </if>
+            <if test="serviceName != null and serviceName != ''">
+                service_name = #{serviceName,jdbcType=VARCHAR},
+            </if>
+            <if test="serviceAliasName != null and serviceAliasName != ''">
+                service_alias_name = #{serviceAliasName,jdbcType=VARCHAR},
+            </if>
+            <if test="serviceVersion != null and serviceVersion != ''">
+                service_version = #{serviceVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag,jdbcType=INTEGER},
+            </if>
+            <if test="createdBy != null and createdBy != ''">
+                created_by = #{createdBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createdTime != null">
+                created_time = #{createdTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <sql id="where">
+        <where>
+            <if test="applicationName != null and applicationName != ''">
+                and application_name like CONCAT('%',#{applicationName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="serviceName != null and serviceName != ''">
+                and service_name like CONCAT('%',#{serviceName,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+    </sql>
+
+    <select id="count" resultType="int">
+        select count(*) from t_application_services
+        <include refid="where"/>
+    </select>
+
+    <select id="findList" parameterType="Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_application_services
+        <include refid="where"/>
+        order by created_time desc
+        <if test="start != null and length != null">
+            limit #{start}, #{length}
+        </if>
+    </select>
+
+    <delete id="deleteByApplicationId">
+        delete from t_application_services
+        where application_id=#{applicationId,jdbcType=INTEGER}
+    </delete>
+</mapper>

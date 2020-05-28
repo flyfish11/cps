@@ -1,0 +1,52 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: platform-app-manager
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: platform-app-manager
+    spec:
+      hostAliases:
+        - ip: "192.168.11.162"
+          hostnames:
+            - "local.redis.com"
+        - ip: "192.168.11.162"
+          hostnames:
+            - "local.rabbitmq.com"
+        - ip: "192.168.11.162"
+          hostnames:
+            - "local.mysql.com"
+      containers:
+        - name: platform-app-manager
+          image: rgs.hlxd.com:8081/cloud-service/platform-app-manager:latest
+          env:
+            - name: AUTHOR
+              value: platform-app-manager
+          ports:
+            - containerPort: 30312
+          volumeMounts:
+            - name: ftl
+              mountPath: /tools/jar_image
+      volumes:
+        - name: ftl
+          hostPath:
+            path: /tools/jar_image
+            type: DirectoryOrCreate
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-managre-center
+spec:
+  ports:
+    - port: 30312
+      protocol: TCP
+      targetPort: 30312
+      nodePort: 30312
+  type: NodePort
+  selector:
+    app: platform-app-manager
