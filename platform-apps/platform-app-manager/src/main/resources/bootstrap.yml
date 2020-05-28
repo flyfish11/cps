@@ -1,5 +1,5 @@
 server:
-  port: 30312
+  port: 30032
 spring:
   application:
     name: platform-app-manager

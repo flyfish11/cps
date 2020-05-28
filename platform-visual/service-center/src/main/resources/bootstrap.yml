@@ -75,7 +75,7 @@ baseServices:
   - serviceId: oauth-center
     port: 30013
   - serviceId: platform-app-manager
-    port: 30312
+    port: 30032
   - serviceId: register-center
     port: 30020
   - serviceId: log-center

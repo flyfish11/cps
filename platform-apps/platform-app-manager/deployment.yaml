@@ -26,7 +26,7 @@ spec:
             - name: AUTHOR
               value: platform-app-manager
           ports:
-            - containerPort: 30312
+            - containerPort: 30032
           volumeMounts:
             - name: ftl
               mountPath: /tools/jar_image
@@ -43,10 +43,10 @@ metadata:
   name: app-managre-center
 spec:
   ports:
-    - port: 30312
+    - port: 30032
       protocol: TCP
-      targetPort: 30312
-      nodePort: 30312
+      targetPort: 30032
+      nodePort: 30032
   type: NodePort
   selector:
     app: platform-app-manager

@@ -2,7 +2,7 @@ FROM openjdk:8
 
 VOLUME /tmp
 
-EXPOSE 30312
+EXPOSE 30032
 
 ADD ./platform-app-manager.jar /app.jar
  
