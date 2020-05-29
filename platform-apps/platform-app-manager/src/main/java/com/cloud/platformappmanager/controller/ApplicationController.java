@@ -1,19 +1,19 @@
 package com.cloud.platformappmanager.controller;
 
-import com.cloud.platformappmanager.service.ApplicationService;
 import com.cloud.common.constants.ServiceIdsConstants;
 import com.cloud.common.utils.BindingResultUtil;
 import com.cloud.common.utils.R;
 import com.cloud.common.utils.ResultUtil;
+import com.cloud.model.common.Page;
+import com.cloud.model.common.Result;
+import com.cloud.model.log.LogAnnotation;
 import com.cloud.model.platformappmanager.bo.AppAdminBO;
 import com.cloud.model.platformappmanager.bo.AppUsePersonBO;
 import com.cloud.model.platformappmanager.bo.ApplicationAddBO;
 import com.cloud.model.platformappmanager.bo.ApplicationUpdateBO;
 import com.cloud.model.platformappmanager.vo.AppClassificationVO;
 import com.cloud.model.platformappmanager.vo.ApplicationDetailVO;
-import com.cloud.model.common.Page;
-import com.cloud.model.common.Result;
-import com.cloud.model.log.LogAnnotation;
+import com.cloud.platformappmanager.service.ApplicationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -141,10 +141,10 @@ public class ApplicationController {
         return this.applicationService.getAppClassification();
     }
 
-    @GetMapping("/listByType/{appType}")
-    @ApiOperation(value = "查询应用列表", notes = "根据应用类别查询应用列表", response = R.class)
-    public R listByType(@PathVariable(value = "appType") String appType) {
-        return this.applicationService.listByType(appType);
+    @GetMapping("/selectAllApp")
+    @ApiOperation(value = "查询所有应用", notes = "查询所有应用信息", response = R.class)
+    public R selectAllApp() {
+        return this.applicationService.selectAllApp();
     }
 
     @GetMapping("/index/navigationBarApps")

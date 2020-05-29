@@ -1,11 +1,5 @@
 package com.cloud.platformappmanager.service.Impl;
 
-import com.cloud.platformappmanager.dao.ApplicationDao;
-import com.cloud.platformappmanager.dao.PlatformGroupDao;
-import com.cloud.platformappmanager.dao.UserApplicationDao;
-import com.cloud.platformappmanager.feign.UserCenterFeignClient;
-import com.cloud.platformappmanager.service.ApplicationService;
-import com.cloud.platformappmanager.service.PlatformGroupService;
 import com.cloud.common.constants.CommonConstants;
 import com.cloud.common.enums.AppStatusEnum;
 import com.cloud.common.enums.ResultEnum;
@@ -13,6 +7,7 @@ import com.cloud.common.enums.YesOrNoEnum;
 import com.cloud.common.utils.AppUserUtil;
 import com.cloud.common.utils.PageUtil;
 import com.cloud.common.utils.R;
+import com.cloud.model.common.Page;
 import com.cloud.model.platformappmanager.Application;
 import com.cloud.model.platformappmanager.UserApplication;
 import com.cloud.model.platformappmanager.bo.AppAdminBO;
@@ -20,8 +15,13 @@ import com.cloud.model.platformappmanager.bo.AppUsePersonBO;
 import com.cloud.model.platformappmanager.bo.ApplicationAddBO;
 import com.cloud.model.platformappmanager.bo.ApplicationUpdateBO;
 import com.cloud.model.platformappmanager.vo.*;
-import com.cloud.model.common.Page;
 import com.cloud.model.user.LoginAppUser;
+import com.cloud.platformappmanager.dao.ApplicationDao;
+import com.cloud.platformappmanager.dao.PlatformGroupDao;
+import com.cloud.platformappmanager.dao.UserApplicationDao;
+import com.cloud.platformappmanager.feign.UserCenterFeignClient;
+import com.cloud.platformappmanager.service.ApplicationService;
+import com.cloud.platformappmanager.service.PlatformGroupService;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -537,17 +537,8 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public R listByType(String appType) {
-        List<Integer> integers = apptypeStr2List(appType);
-        List<Application> applications = this.applicationDao.selectAllByAppTypeInAndDelFlag(integers, YesOrNoEnum.NO.getType());
+    public R selectAllApp() {
+        List<Application> applications = this.applicationDao.selectAllByDelFlag(YesOrNoEnum.NO.getType());
         return R.ok(applications);
     }
-
-    public List<Integer> apptypeStr2List(String appType) {
-        String[] types = appType.split(",");
-        List<Integer> integers = Arrays.stream(types)
-                .map(arr -> Integer.valueOf(arr)).collect(Collectors.toList());
-        return integers;
-    }
-
 }
