@@ -37,8 +37,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @RestController
 @RequestMapping("/api")
-public class TokenController
-{
+public class TokenController {
 
     @Value("${isUniqueLogin}")
     private Boolean isUniqueLogin;
@@ -95,12 +94,8 @@ public class TokenController
         if (expires_in != null && access_token != null) {
             long maxAge = Long.parseLong(String.valueOf(expires_in));
             redisTemplate.opsForValue().set(ip, access_token.toString(), maxAge, TimeUnit.SECONDS);
-
         }
-
-
         log.info("用户登录成功，用户名为 : {}", account);
-
         // 记录登录日志
         SysLog sysLog = buildLogData(account, "oauth-center", "用户名密码登录", startTime);
         logUtil.AsynSaveLog(sysLog);
@@ -122,11 +117,7 @@ public class TokenController
             parameters.put("msg", "ip不能为空！");
             return parameters;
         }
-        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = servletRequestAttributes.getRequest();
-        HttpServletResponse response = servletRequestAttributes.getResponse();
         Long startTime = System.currentTimeMillis();
-
         parameters.put("account", account);
         parameters.put(PASSWORD, password);
         Map<String, Object> tokenInfo = oauth2Client.adLlogin(parameters);
@@ -135,12 +126,8 @@ public class TokenController
         Object access_token = tokenInfo.get("access_token");
         if (expires_in != null && access_token != null) {
             long maxAge = Long.parseLong(String.valueOf(expires_in));
-
-
-            redisTemplate.opsForValue().set(CommonConstants.CACHE_TOKEN+ip,access_token.toString(),maxAge,TimeUnit.SECONDS);
-
+            redisTemplate.opsForValue().set(CommonConstants.CACHE_TOKEN + ip, access_token.toString(), maxAge, TimeUnit.SECONDS);
         }
-
         // 记录登录日志
         SysLog sysLog = buildLogData(account, "oauth-center", "ad域认证登录", startTime);
         logUtil.AsynSaveLog(sysLog);
@@ -186,7 +173,6 @@ public class TokenController
     public R checkToken(@RequestParam String token) {
         R result = null;
         if (StringUtils.isBlank(token)) {
-
             result = R.failed("toke不能为空！");
         }
         Map<String, Object> map = oauth2Client.checkToken(token);
@@ -194,11 +180,9 @@ public class TokenController
 
         if (code instanceof Integer && (Integer) code == 1) {
             result = R.ok(false, "token已失效!");
-        }
-        else {
+        } else {
             result = R.ok(map.get("active"), "token有效！");
         }
-
         return result;
     }
 
@@ -226,7 +210,6 @@ public class TokenController
         return tokenInfo;
     }
 
-
     /**
      * 系统刷新refresh_token
      *
@@ -241,7 +224,6 @@ public class TokenController
         parameters.put(CLIENT_SECRET, CLIENT_SECRET_VALUE);
         parameters.put(OAuth2Utils.SCOPE, "app");
         parameters.put("refresh_token", refreshToken);
-
         return oauth2Client.postAccessToken(parameters);
     }
 
@@ -253,38 +235,28 @@ public class TokenController
      */
     @GetMapping("/getTokenByIp")
     public R getTokenByIp(@RequestParam("ip") String ip) {
-
-        Map<String ,Object> result=new HashMap();
+        Map<String, Object> result = new HashMap();
         String token = null;
         try {
-            token = redisTemplate.opsForValue().get(CommonConstants.CACHE_TOKEN+ip);
+            token = redisTemplate.opsForValue().get(CommonConstants.CACHE_TOKEN + ip);
         } catch (Exception e) {
             return R.failed(e.getMessage());
         }
         if (StringUtils.isEmpty(token)) {
             return R.ok(null, "token不存在！");
         }
-        Map<String ,Object> map = oauth2Client.checkToken(token);
+        Map<String, Object> map = oauth2Client.checkToken(token);
         if (map.get("active") != null) {
-            result.put("token",token);
-
+            result.put("token", token);
             String account = map.get("user_name").toString();
             R r = userClient.findByAccount(account);
             Object data = r.getData();
-            if (r.getCode() == CommonConstants.SUCCESS &&data!=null) {
-
-            result.put("user",data);
+            if (r.getCode() == CommonConstants.SUCCESS && data != null) {
+                result.put("user", data);
             }
         }
-
         return R.ok(result);
     }
-
-
-
-
-
-
 
 
     /**
@@ -335,10 +307,7 @@ public class TokenController
             return R.ok(myObjectListRedis.size());
         } catch (Exception e) {
             return R.failed(e.getMessage());
-
         }
-
     }
-
 
 }

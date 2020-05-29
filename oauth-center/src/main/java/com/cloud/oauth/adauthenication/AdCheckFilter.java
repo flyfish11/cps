@@ -17,7 +17,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Slf4j
 @Component
@@ -69,7 +70,8 @@ public class AdCheckFilter extends OncePerRequestFilter implements InitializingB
                     return;
                 }
             } catch (Exception e) {
-                authenticationFailureHandler.onAuthenticationFailure(request, response, new AdAuthenticationException(e.getMessage()));
+                log.error("【LDAP登录异常】{}", e.getMessage());
+                authenticationFailureHandler.onAuthenticationFailure(request, response, new AdAuthenticationException("LDAP连接失败，请检验LDAP服务是否正常！"));
                 return;
             }
         }

@@ -55,7 +55,7 @@ CREATE TABLE `gateway_api_define` (
 -- Records of gateway_api_define
 -- ----------------------------
 BEGIN;
-INSERT INTO `gateway_api_define` VALUES ('应用管理中心', '/api/api-pam/**', 'platform-app-manager', NULL, 0, 1, 1, '应用管理中心');
+INSERT INTO `gateway_api_define` VALUES ('应用管理中心', '/api/api-a/**', 'platform-app-manager', NULL, 0, 1, 1, '应用管理中心');
 INSERT INTO `gateway_api_define` VALUES ('文件中心', '/api/api-f/**', 'file-center', NULL, 0, 1, 1, '文件中心');
 INSERT INTO `gateway_api_define` VALUES ('日志中心', '/api/api-l/**', 'log-center', NULL, 0, 1, 1, '日志中心');
 INSERT INTO `gateway_api_define` VALUES ('平台用户服务', '/api/api-u/**', 'platform-user', '', 0, 1, 1, '用户中心');
