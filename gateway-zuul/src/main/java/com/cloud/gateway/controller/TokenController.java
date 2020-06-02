@@ -71,13 +71,7 @@ public class TokenController {
      * @return
      */
     @PostMapping("/sys/login")
-    public Map<String, Object> login(String account, String password, String ip) {
-
-        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = servletRequestAttributes.getRequest();
-        HttpServletResponse response = servletRequestAttributes.getResponse();
-        Map<String, String[]> parameterMap = request.getParameterMap();
-
+    public Map<String, Object> login(String account, String password) {
         Long startTime = System.currentTimeMillis();
         Map<String, Object> parameters = new HashMap<>();
         parameters.put(OAuth2Utils.GRANT_TYPE, GRANT_TYPE_VALUE);
@@ -86,15 +80,8 @@ public class TokenController {
         parameters.put(OAuth2Utils.SCOPE, "app");
         parameters.put(USERNAME, account + "|" + CredentialType.USERNAME.name());
         parameters.put(PASSWORD, password);
-        Map<String, Object> tokenInfo = null;
-        tokenInfo = oauth2Client.postAccessToken(parameters);
+        Map<String, Object> tokenInfo = oauth2Client.postAccessToken(parameters);
 
-        Object expires_in = tokenInfo.get("expires_in");
-        Object access_token = tokenInfo.get("access_token");
-        if (expires_in != null && access_token != null) {
-            long maxAge = Long.parseLong(String.valueOf(expires_in));
-            redisTemplate.opsForValue().set(ip, access_token.toString(), maxAge, TimeUnit.SECONDS);
-        }
         log.info("用户登录成功，用户名为 : {}", account);
         // 记录登录日志
         SysLog sysLog = buildLogData(account, "oauth-center", "用户名密码登录", startTime);
