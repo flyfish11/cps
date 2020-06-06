@@ -85,8 +85,10 @@ public class SysLdapConfigServiceImpl implements SysLdapConfigService {
             log.info("LDAP验证:{}", sysLdapConfigUpdateBO);
             LdapTemplate ldapTemplate = initLdapTemplate(sysLdapConfigUpdateBO);
             EqualsFilter filter = new EqualsFilter("uid", sysLdapConfigUpdateBO.getAdminAccount());
-            ldapTemplate.authenticate("", filter.toString(), sysLdapConfigUpdateBO.getAdminPassword());
-            return R.ok(ResultEnum.LDAP_CONNECT_SUCCESS.getMessage());
+            if (ldapTemplate.authenticate("", filter.toString(), sysLdapConfigUpdateBO.getAdminPassword())) {
+                return R.ok(ResultEnum.LDAP_CONNECT_SUCCESS.getMessage());
+            }
+            return R.failed(ResultEnum.LDAP_CONNECT_ERROR.getMessage());
         } catch (Exception e) {
             String errMsg = "";
             log.error("验证LDAP用户失败！", sysLdapConfigUpdateBO);
@@ -99,6 +101,7 @@ public class SysLdapConfigServiceImpl implements SysLdapConfigService {
             }
             return R.failed(ResultEnum.LDAP_CONNECT_ERROR.getMessage() + errMsg);
         }
+
     }
 
 }
