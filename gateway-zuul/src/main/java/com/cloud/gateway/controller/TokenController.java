@@ -18,15 +18,8 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.util.OAuth2Utils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -157,20 +150,16 @@ public class TokenController {
      * @return
      */
     @GetMapping("/checkToken")
-    public R checkToken(@RequestParam String token) {
-        R result = null;
+    public R checkToken(@RequestParam(value = "token", defaultValue = "") String token) {
         if (StringUtils.isBlank(token)) {
-            result = R.failed("toke不能为空！");
+            return R.failed(Boolean.FALSE, "toke不能为空");
         }
         Map<String, Object> map = oauth2Client.checkToken(token);
         Object code = map.get("code");
-
-        if (code instanceof Integer && (Integer) code == 1) {
-            result = R.ok(false, "token已失效!");
-        } else {
-            result = R.ok(map.get("active"), "token有效！");
+        if (Objects.equals(code, CommonConstants.FAIL)) {
+            return R.failed(Boolean.FALSE, "无效的token");
         }
-        return result;
+        return R.ok(Boolean.TRUE, "有效的token");
     }
 
     /**
