@@ -2,12 +2,12 @@ package com.cloud.platformuser.service;
 
 import com.cloud.common.utils.R;
 import com.cloud.model.common.Page;
-import com.cloud.model.user.LoginAppUser;
 import com.cloud.model.platformuser.SysRole;
 import com.cloud.model.platformuser.SysUser;
 import com.cloud.model.platformuser.bo.SysUserAddBO;
 import com.cloud.model.platformuser.bo.SysUserUpdateBO;
 import com.cloud.model.platformuser.bo.UpdatePwdBO;
+import com.cloud.model.user.LoginAppUser;
 import com.cloud.platformuser.dto.AppUserDto;
 import com.cloud.platformuser.exception.UserCenterException;
 
@@ -148,5 +148,13 @@ public interface SysUserService {
      * @return
      */
     SysUser queryByUserId(Integer userId);
+
+    /**
+     * 根据账号信息校验账户是否存在
+     *
+     * @param account 登录账号
+     * @return
+     */
+    R checkUser(String account);
 
 }

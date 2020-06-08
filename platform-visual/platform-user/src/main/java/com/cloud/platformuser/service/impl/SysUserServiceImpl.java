@@ -462,6 +462,15 @@ public class SysUserServiceImpl implements SysUserService {
         return this.sysUserDao.selectById(userId);
     }
 
+    @Override
+    public R checkUser(String account) {
+        SysUser sysUser = this.sysUserDao.selectOneByAccount(account);
+        if (Objects.isNull(sysUser)) {
+            return R.ok(Boolean.FALSE);
+        }
+        return R.failed(Boolean.TRUE);
+    }
+
     /**
      * 校验规则：
      * 1. 密码长度要等于或大于8位；
