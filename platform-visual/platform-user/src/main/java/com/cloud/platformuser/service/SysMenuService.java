@@ -5,6 +5,7 @@ import com.cloud.model.common.Result;
 import com.cloud.model.common.ZTreeNode;
 import com.cloud.model.platformuser.SysMenu;
 import com.cloud.model.platformuser.bo.SysMenuAddBO;
+import com.cloud.model.platformuser.bo.SysMenuUpdateBO;
 
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,7 @@ public interface SysMenuService {
 
     SysMenu findById(String menuId);
 
-    int updateMenu(SysMenu record);
+    int updateMenu(SysMenuUpdateBO sysMenuUpdateBO);
 
     List<SysMenu> findSysMenu(Map<String, Object> params);
 

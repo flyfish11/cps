@@ -8,10 +8,11 @@ import com.cloud.common.utils.UUIDUtils;
 import com.cloud.common.vo.MenuTree;
 import com.cloud.model.common.Result;
 import com.cloud.model.common.ZTreeNode;
-import com.cloud.model.user.LoginAppUser;
 import com.cloud.model.platformuser.SysMenu;
 import com.cloud.model.platformuser.SysRole;
 import com.cloud.model.platformuser.bo.SysMenuAddBO;
+import com.cloud.model.platformuser.bo.SysMenuUpdateBO;
+import com.cloud.model.user.LoginAppUser;
 import com.cloud.platformuser.dao.SysMenuDao;
 import com.cloud.platformuser.service.SysMenuService;
 import com.google.common.collect.Sets;
@@ -77,9 +78,11 @@ public class SysMenuServiceImpl implements SysMenuService {
     }
 
     @Override
-    public int updateMenu(SysMenu sysMenu) {
+    public int updateMenu(SysMenuUpdateBO sysMenuUpdateBO) {
+        SysMenu sysMenu = new SysMenu();
+        BeanUtils.copyProperties(sysMenuUpdateBO, sysMenu);
         sysMenu.setUpdateTime(new Date());
-        if (sysMenu.getPId() == null || sysMenu.getPId().equals("")) {
+        if (Objects.isNull(sysMenu.getPId())) {
             sysMenu.setPId(CommonConstants.DEFAULT_MENU_PID);
         }
         return sysMenuDao.updateByIdSelective(sysMenu);

@@ -9,6 +9,7 @@ import com.cloud.model.common.ZTreeNode;
 import com.cloud.model.log.LogAnnotation;
 import com.cloud.model.platformuser.SysMenu;
 import com.cloud.model.platformuser.bo.SysMenuAddBO;
+import com.cloud.model.platformuser.bo.SysMenuUpdateBO;
 import com.cloud.platformuser.service.SysMenuService;
 import com.google.common.collect.Maps;
 import io.swagger.annotations.Api;
@@ -97,15 +98,14 @@ public class SysMenuController {
     /**
      * 修改菜单信息
      *
-     * @param sysMenu
+     * @param sysMenuUpdateBO
      * @return
      */
     @ApiOperation(value = "修改菜单信息", notes = "根据菜单实体修改菜单信息")
-    @ApiImplicitParam(name = "sysMenu", value = "菜单实体sysMenu", required = true, dataType = "SysMenu", paramType = "query")
     @PostMapping("/modify")
     @LogAnnotation(serviceId = ServiceIdsConstants.USER_CENTER, title = "修改菜单")
-    public Result updateMenu(@RequestBody SysMenu sysMenu) {
-        sysMenuService.updateMenu(sysMenu);
+    public Result updateMenu(@RequestBody SysMenuUpdateBO sysMenuUpdateBO) {
+        sysMenuService.updateMenu(sysMenuUpdateBO);
         return ResultUtil.success(null);
     }
 
