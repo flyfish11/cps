@@ -28,4 +28,6 @@ public class GatewayApiDefine {
     private Integer stripPrefix;
 
     private String apiName;
+
+    private String roleId;
 }

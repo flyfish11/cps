@@ -11,6 +11,8 @@ import com.cloud.model.platformappmanager.ServiceInfo;
 import com.cloud.model.common.Page;
 import com.cloud.model.common.Result;
 import com.cloud.model.platformuser.SysDictItem;
+import com.cloud.model.platformuser.SysRole;
+import com.cloud.model.user.LoginAppUser;
 import com.cloud.service.config.BaseServicesProperties;
 import com.cloud.service.dao.ServiceInfoDao;
 import com.cloud.service.dto.ServiceInfoDto;
@@ -61,6 +63,12 @@ public class ServiceInfoServiceImpl implements ServiceInfoService {
     @Override
     public Page<ServiceInfoDto> list(Map<String, Object> params) {
         params.put("isDelete", 0);
+        LoginAppUser loginAppUser = AppUserUtil.getLoginAppUser();
+        Set<SysRole> sysRoles = loginAppUser.getSysRoles();
+        Iterator<SysRole> iterator = sysRoles.iterator();
+        if(iterator.hasNext()){
+            params.put("roleId",iterator.next().getId());
+        }
         long total = serviceInfoDao.count(params);
         PageUtil.pageUtil(params);
         List<ServiceInfo> serviceInfoList = Lists.newArrayList();
@@ -82,6 +90,14 @@ public class ServiceInfoServiceImpl implements ServiceInfoService {
 
     @Override
     public Result add(ServiceInfo serviceInfo) {
+
+        LoginAppUser loginAppUser = AppUserUtil.getLoginAppUser();
+        Set<SysRole> sysRoles = loginAppUser.getSysRoles();
+        Iterator<SysRole> iterator = sysRoles.iterator();
+        if(iterator.hasNext()){
+            serviceInfo.setRoleId(iterator.next().getId());
+        }
+
         //判断服务名称是否重复
         ServiceInfo serviceInfo1 = this.serviceInfoDao.selectOneByNameAndIsDelete(serviceInfo.getName(), 0);
         if (Objects.nonNull(serviceInfo1)) {
@@ -174,16 +190,14 @@ public class ServiceInfoServiceImpl implements ServiceInfoService {
             Map result = JSONObject.parseObject(post);
             Object status = result.get("status");
             if (status != null && "0".equals(status.toString())) {
-                serviceInfo.setIsDelete(1);
-                this.updateById(serviceInfo);
+                serviceInfoDao.deleteById(id);
                 return ResultUtil.success("服务删除成功！");
             } else {
                 String msg = result.get("msg") != null ? result.get("msg").toString() : "服务删除失败！";
                 return ResultUtil.error(msg);
             }
         } else {
-            serviceInfo.setIsDelete(1);
-            this.updateById(serviceInfo);
+            serviceInfoDao.deleteById(id);
             return ResultUtil.success("服务删除成功！");
         }
     }

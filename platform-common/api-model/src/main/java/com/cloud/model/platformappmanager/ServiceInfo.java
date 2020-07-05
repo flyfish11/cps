@@ -74,6 +74,13 @@ public class ServiceInfo implements Serializable {
     private String createBy;
 
     /**
+     * 创建角色
+     */
+    @ApiModelProperty("创建角色")
+    private String roleId;
+
+
+    /**
      * 创建时间
      */
     @ApiModelProperty(value = "创建时间")

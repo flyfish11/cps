@@ -1,6 +1,7 @@
 package com.cloud.gateway.service.impl;
 
 import com.cloud.common.constants.CommonConstants;
+import com.cloud.common.utils.AppUserUtil;
 import com.cloud.common.utils.PageUtil;
 import com.cloud.common.utils.R;
 import com.cloud.common.utils.UUIDUtils;
@@ -10,6 +11,8 @@ import com.cloud.model.common.Page;
 import com.cloud.model.gateway.GatewayApiDefine;
 import com.cloud.model.gateway.bo.GatewayApiDefineAddBO;
 import com.cloud.model.gateway.bo.GatewayApiDefineUpdateBO;
+import com.cloud.model.platformuser.SysRole;
+import com.cloud.model.user.LoginAppUser;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -19,9 +22,7 @@ import org.springframework.cloud.netflix.zuul.filters.RouteLocator;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Classname GatewayApiDefineServiceImpl
@@ -49,6 +50,13 @@ public class GatewayApiDefineServiceImpl implements GatewayApiDefineService {
 
     @Override
     public Page<GatewayApiDefine> pageList(Map<String, Object> params) {
+
+        LoginAppUser loginAppUser = AppUserUtil.getLoginAppUser();
+        Set<SysRole> sysRoles = loginAppUser.getSysRoles();
+        Iterator<SysRole> iterator = sysRoles.iterator();
+        if(iterator.hasNext()){
+            params.put("roleId",iterator.next().getId());
+        }
         long total = this.gatewayApiDefineDao.count(params);
         PageUtil.pageUtil(params);
 
@@ -91,6 +99,12 @@ public class GatewayApiDefineServiceImpl implements GatewayApiDefineService {
         gatewayApiDefine.setRetryable(Boolean.FALSE);
         gatewayApiDefine.setEnabled(Boolean.TRUE);
         gatewayApiDefine.setStripPrefix(1);
+        LoginAppUser loginAppUser = AppUserUtil.getLoginAppUser();
+        Set<SysRole> sysRoles = loginAppUser.getSysRoles();
+        Iterator<SysRole> iterator = sysRoles.iterator();
+        if(iterator.hasNext()){
+            gatewayApiDefine.setRoleId(iterator.next().getId());
+        }
         return gatewayApiDefine;
     }
 

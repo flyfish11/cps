@@ -10,6 +10,7 @@
         <result column="belong_application" jdbcType="INTEGER" property="belongApplication"/>
         <result column="service_group" jdbcType="VARCHAR" property="serviceGroup"/>
         <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="role_id" jdbcType="VARCHAR" property="roleId"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
         <result column="update_timre" jdbcType="TIMESTAMP" property="updateTimre"/>
@@ -21,8 +22,8 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-    id, `name`, short_name, description, service_unic_id, belong_application, service_group, 
-    create_by, create_time, update_by, update_timre, is_delete, jenkinslog, jar_addr, 
+    id, `name`, short_name, description, service_unic_id, belong_application, service_group,
+    create_by,role_id, create_time, update_by, update_timre, is_delete, jenkinslog, jar_addr,
     `type`, service_port
   </sql>
 
@@ -33,23 +34,23 @@
         where id = #{id,jdbcType=INTEGER}
     </select>
 
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <delete id="deleteById" parameterType="java.lang.Integer">
     delete from t_service
     where id = #{id,jdbcType=INTEGER}
   </delete>
 
     <insert id="insert" parameterType="com.cloud.model.platformappmanager.ServiceInfo" useGeneratedKeys="true">
     insert into t_service (`name`, short_name,
-      description, service_unic_id, belong_application, 
-      service_group, create_by, create_time, 
-      update_by, update_timre, is_delete, 
-      jenkinslog, jar_addr, `type`, 
+      description, service_unic_id, belong_application,
+      service_group, create_by,role_id, create_time,
+      update_by, update_timre, is_delete,
+      jenkinslog, jar_addr, `type`,
       service_port)
     values (#{name,jdbcType=VARCHAR}, #{shortName,jdbcType=VARCHAR},
-      #{description,jdbcType=LONGVARCHAR}, #{serviceUnicId,jdbcType=VARCHAR}, #{belongApplication,jdbcType=INTEGER}, 
-      #{serviceGroup,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateBy,jdbcType=VARCHAR}, #{updateTimre,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER}, 
-      #{jenkinslog,jdbcType=BLOB}, #{jarAddr,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{description,jdbcType=LONGVARCHAR}, #{serviceUnicId,jdbcType=VARCHAR}, #{belongApplication,jdbcType=INTEGER},
+      #{serviceGroup,jdbcType=VARCHAR},  #{createBy,jdbcType=VARCHAR},#{roleId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+      #{updateBy,jdbcType=VARCHAR}, #{updateTimre,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER},
+      #{jenkinslog,jdbcType=BLOB}, #{jarAddr,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR},
       #{servicePort,jdbcType=VARCHAR})
   </insert>
 
@@ -76,6 +77,9 @@
             </if>
             <if test="createBy != null and createBy != ''">
                 create_by,
+            </if>
+            <if test="roleId != null and roleId != ''">
+                role_id,
             </if>
             <if test="createTime != null">
                 create_time,
@@ -123,6 +127,9 @@
             </if>
             <if test="createBy != null and createBy != ''">
                 #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="roleId != null and roleId != ''">
+                #{roleId,jdbcType=VARCHAR},
             </if>
             <if test="createTime != null">
                 #{createTime,jdbcType=TIMESTAMP},
@@ -175,6 +182,9 @@
             <if test="createBy != null and createBy != ''">
                 create_by = #{createBy,jdbcType=VARCHAR},
             </if>
+            <if test="roleId != null and roleId != ''">
+                role_id = #{roleId,jdbcType=VARCHAR},
+            </if>
             <if test="createTime != null">
                 create_time = #{createTime,jdbcType=TIMESTAMP},
             </if>
@@ -212,6 +222,7 @@
       belong_application = #{belongApplication,jdbcType=INTEGER},
       service_group = #{serviceGroup,jdbcType=VARCHAR},
       create_by = #{createBy,jdbcType=VARCHAR},
+      role_id = #{roleId,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_by = #{updateBy,jdbcType=VARCHAR},
       update_timre = #{updateTimre,jdbcType=TIMESTAMP},
@@ -228,6 +239,9 @@
         <include refid="Base_Column_List"/>
         from t_service
         <where>
+            <if test="roleId != null and roleId != ''">
+                and role_id = #{roleId}
+            </if>
             <if test="name != null and name != ''">
                 and name = #{name}
             </if>
@@ -247,6 +261,9 @@
     <select id="count" resultType="int">
         select count(*) from t_service
         <where>
+            <if test="roleId != null and roleId != ''">
+                and role_id = #{roleId}
+            </if>
             <if test="name != null and name != ''">
                 and name = LIKE CONCAT('%',#{name},'%')
             </if>

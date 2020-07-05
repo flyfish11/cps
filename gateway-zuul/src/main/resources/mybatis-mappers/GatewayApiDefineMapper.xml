@@ -10,9 +10,10 @@
         <result column="enabled" jdbcType="BOOLEAN" property="enabled"/>
         <result column="strip_prefix" jdbcType="INTEGER" property="stripPrefix"/>
         <result column="api_name" jdbcType="VARCHAR" property="apiName"/>
+        <result column="role_id" jdbcType="VARCHAR" property="roleId"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id, `path`, service_id, url, retryable, enabled, strip_prefix, api_name
+        id, `path`, service_id, url, retryable, enabled, strip_prefix, api_name ，role_id
     </sql>
     <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
@@ -33,11 +34,11 @@
     </delete>
     <insert id="insert" parameterType="com.cloud.model.gateway.GatewayApiDefine">
         insert into gateway_api_define (id, `path`, service_id,
-        url, retryable, enabled,
-        strip_prefix, api_name)
+                                        url, retryable, enabled,
+                                        strip_prefix, api_name ,role_id)
         values (#{id,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{serviceId,jdbcType=VARCHAR},
-        #{url,jdbcType=VARCHAR}, #{retryable,jdbcType=BOOLEAN}, #{enabled,jdbcType=BOOLEAN},
-        #{stripPrefix,jdbcType=INTEGER}, #{apiName,jdbcType=VARCHAR})
+                #{url,jdbcType=VARCHAR}, #{retryable,jdbcType=BOOLEAN}, #{enabled,jdbcType=BOOLEAN},
+                #{stripPrefix,jdbcType=INTEGER}, #{apiName,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR})
     </insert>
     <insert id="insertSelective" parameterType="com.cloud.model.gateway.GatewayApiDefine">
         insert into gateway_api_define
@@ -66,6 +67,9 @@
             <if test="apiName != null and apiName != ''">
                 api_name,
             </if>
+            <if test="roleId != null and roleId != ''">
+                role_id,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null and id != ''">
@@ -91,6 +95,9 @@
             </if>
             <if test="apiName != null and apiName != ''">
                 #{apiName,jdbcType=VARCHAR},
+            </if>
+            <if test="roleId != null and roleId != ''">
+                #{roleId,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -118,18 +125,22 @@
             <if test="apiName != null and apiName != ''">
                 api_name = #{apiName,jdbcType=VARCHAR},
             </if>
+            <if test="roleId != null and roleId != ''">
+                role_id = #{roleId,jdbcType=VARCHAR},
+            </if>
         </set>
         where id = #{id,jdbcType=VARCHAR}
     </update>
     <update id="updateById" parameterType="com.cloud.model.gateway.GatewayApiDefine">
         update gateway_api_define
         set `path` = #{path,jdbcType=VARCHAR},
-        service_id = #{serviceId,jdbcType=VARCHAR},
-        url = #{url,jdbcType=VARCHAR},
-        retryable = #{retryable,jdbcType=BOOLEAN},
-        enabled = #{enabled,jdbcType=BOOLEAN},
-        strip_prefix = #{stripPrefix,jdbcType=INTEGER},
-        api_name = #{apiName,jdbcType=VARCHAR}
+            service_id = #{serviceId,jdbcType=VARCHAR},
+            url = #{url,jdbcType=VARCHAR},
+            retryable = #{retryable,jdbcType=BOOLEAN},
+            enabled = #{enabled,jdbcType=BOOLEAN},
+            strip_prefix = #{stripPrefix,jdbcType=INTEGER},
+            api_name = #{apiName,jdbcType=VARCHAR},
+            role_id =#{roleId,jdbcType=VARCHAR}
         where id = #{id,jdbcType=VARCHAR}
     </update>
 
@@ -142,6 +153,12 @@
 
     <sql id="where">
         <where>
+            <if test="roleId != null and roleId != ''">
+                and role_id = #{roleId,jdbcType=VARCHAR}
+            </if>
+            <if test="serviceId != null and serviceId != ''">
+                and service_id = #{serviceId,jdbcType=VARCHAR}
+            </if>
             <if test="serviceId != null and serviceId != ''">
                 and service_id = #{serviceId,jdbcType=VARCHAR}
             </if>
@@ -166,6 +183,9 @@
         <include refid="Base_Column_List"/>
         from gateway_api_define
         <where>
+            <if test="roleId != null and roleId != ''">
+                and role_id = #{roleId,jdbcType=VARCHAR}
+            </if>
             <if test="serviceId != null and serviceId != ''">
                 and service_id = #{serviceId,jdbcType=VARCHAR}
             </if>

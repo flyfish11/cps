@@ -36,6 +36,11 @@ eureka:
     lease-renewal-interval-in-seconds: 5
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${server.port}
+security:
+  oauth2:
+    resource:
+      user-info-uri: http://oauth-center:30013/user-me
+      prefer-token-info: false
 management:
   endpoints:
     web:

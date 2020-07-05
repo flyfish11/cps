@@ -16,7 +16,7 @@ import java.util.Map;
 @Mapper
 public interface ServiceInfoDao {
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteById(Integer id);
 
     int insert(ServiceInfo record);
 
