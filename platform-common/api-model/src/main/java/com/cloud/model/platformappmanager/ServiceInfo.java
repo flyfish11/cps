@@ -56,12 +56,6 @@ public class ServiceInfo implements Serializable {
     private String serviceUnicId;
 
     /**
-     * 服务所属应用外键id
-     */
-    @ApiModelProperty(value = "服务所属应用外键id")
-    private Integer belongApplication;
-
-    /**
      * 服务分组外键id
      */
     @ApiModelProperty(value = "服务分组外键id")

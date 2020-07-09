@@ -7,7 +7,6 @@
         <result column="short_name" jdbcType="VARCHAR" property="shortName"/>
         <result column="description" jdbcType="LONGVARCHAR" property="description"/>
         <result column="service_unic_id" jdbcType="VARCHAR" property="serviceUnicId"/>
-        <result column="belong_application" jdbcType="INTEGER" property="belongApplication"/>
         <result column="service_group" jdbcType="VARCHAR" property="serviceGroup"/>
         <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
         <result column="role_id" jdbcType="VARCHAR" property="roleId"/>
@@ -22,7 +21,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-    id, `name`, short_name, description, service_unic_id, belong_application, service_group,
+    id, `name`, short_name, description, service_unic_id, service_group,
     create_by,role_id, create_time, update_by, update_timre, is_delete, jenkinslog, jar_addr,
     `type`, service_port
   </sql>
@@ -41,13 +40,13 @@
 
     <insert id="insert" parameterType="com.cloud.model.platformappmanager.ServiceInfo" useGeneratedKeys="true">
     insert into t_service (`name`, short_name,
-      description, service_unic_id, belong_application,
+      description, service_unic_id,
       service_group, create_by,role_id, create_time,
       update_by, update_timre, is_delete,
       jenkinslog, jar_addr, `type`,
       service_port)
     values (#{name,jdbcType=VARCHAR}, #{shortName,jdbcType=VARCHAR},
-      #{description,jdbcType=LONGVARCHAR}, #{serviceUnicId,jdbcType=VARCHAR}, #{belongApplication,jdbcType=INTEGER},
+      #{description,jdbcType=LONGVARCHAR}, #{serviceUnicId,jdbcType=VARCHAR},
       #{serviceGroup,jdbcType=VARCHAR},  #{createBy,jdbcType=VARCHAR},#{roleId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
       #{updateBy,jdbcType=VARCHAR}, #{updateTimre,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER},
       #{jenkinslog,jdbcType=BLOB}, #{jarAddr,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR},
@@ -68,9 +67,6 @@
             </if>
             <if test="serviceUnicId != null and serviceUnicId != ''">
                 service_unic_id,
-            </if>
-            <if test="belongApplication != null">
-                belong_application,
             </if>
             <if test="serviceGroup != null and serviceGroup != ''">
                 service_group,
@@ -118,9 +114,6 @@
             </if>
             <if test="serviceUnicId != null and serviceUnicId != ''">
                 #{serviceUnicId,jdbcType=VARCHAR},
-            </if>
-            <if test="belongApplication != null">
-                #{belongApplication,jdbcType=INTEGER},
             </if>
             <if test="serviceGroup != null and serviceGroup != ''">
                 #{serviceGroup,jdbcType=VARCHAR},
@@ -173,9 +166,6 @@
             <if test="serviceUnicId != null and serviceUnicId != ''">
                 service_unic_id = #{serviceUnicId,jdbcType=VARCHAR},
             </if>
-            <if test="belongApplication != null">
-                belong_application = #{belongApplication,jdbcType=INTEGER},
-            </if>
             <if test="serviceGroup != null and serviceGroup != ''">
                 service_group = #{serviceGroup,jdbcType=VARCHAR},
             </if>
@@ -219,7 +209,6 @@
       short_name = #{shortName,jdbcType=VARCHAR},
       description = #{description,jdbcType=LONGVARCHAR},
       service_unic_id = #{serviceUnicId,jdbcType=VARCHAR},
-      belong_application = #{belongApplication,jdbcType=INTEGER},
       service_group = #{serviceGroup,jdbcType=VARCHAR},
       create_by = #{createBy,jdbcType=VARCHAR},
       role_id = #{roleId,jdbcType=VARCHAR},

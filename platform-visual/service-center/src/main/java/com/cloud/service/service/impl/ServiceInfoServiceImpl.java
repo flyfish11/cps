@@ -4,19 +4,16 @@ import com.alibaba.fastjson.JSONObject;
 import com.cloud.common.enums.ResultEnum;
 import com.cloud.common.utils.AppUserUtil;
 import com.cloud.common.utils.PageUtil;
-import com.cloud.common.utils.R;
 import com.cloud.common.utils.ResultUtil;
-import com.cloud.model.platformappmanager.ApplicationServices;
-import com.cloud.model.platformappmanager.ServiceInfo;
 import com.cloud.model.common.Page;
 import com.cloud.model.common.Result;
+import com.cloud.model.platformappmanager.ServiceInfo;
 import com.cloud.model.platformuser.SysDictItem;
 import com.cloud.model.platformuser.SysRole;
 import com.cloud.model.user.LoginAppUser;
 import com.cloud.service.config.BaseServicesProperties;
 import com.cloud.service.dao.ServiceInfoDao;
 import com.cloud.service.dto.ServiceInfoDto;
-import com.cloud.service.feign.ApplicationFeignClient;
 import com.cloud.service.feign.UserCenterFeignClient;
 import com.cloud.service.service.ServiceInfoService;
 import com.cloud.service.util.HttpClietUtil;
@@ -52,9 +49,6 @@ public class ServiceInfoServiceImpl implements ServiceInfoService {
     private ServiceInfoDao serviceInfoDao;
 
     @Autowired
-    private ApplicationFeignClient applicationFeignClient;
-
-    @Autowired
     private UserCenterFeignClient userCenterFeignClient;
 
     @Value("${web.deleteServiceApi}")
@@ -66,8 +60,8 @@ public class ServiceInfoServiceImpl implements ServiceInfoService {
         LoginAppUser loginAppUser = AppUserUtil.getLoginAppUser();
         Set<SysRole> sysRoles = loginAppUser.getSysRoles();
         Iterator<SysRole> iterator = sysRoles.iterator();
-        if(iterator.hasNext()){
-            params.put("roleId",iterator.next().getId());
+        if (iterator.hasNext()) {
+            params.put("roleId", iterator.next().getId());
         }
         long total = serviceInfoDao.count(params);
         PageUtil.pageUtil(params);
@@ -94,7 +88,7 @@ public class ServiceInfoServiceImpl implements ServiceInfoService {
         LoginAppUser loginAppUser = AppUserUtil.getLoginAppUser();
         Set<SysRole> sysRoles = loginAppUser.getSysRoles();
         Iterator<SysRole> iterator = sysRoles.iterator();
-        if(iterator.hasNext()){
+        if (iterator.hasNext()) {
             serviceInfo.setRoleId(iterator.next().getId());
         }
 
@@ -119,27 +113,6 @@ public class ServiceInfoServiceImpl implements ServiceInfoService {
 
         serviceInfo.setType("jar");
         this.serviceInfoDao.insertSelective(serviceInfo);
-
-        // 设置应用类别（jar/zip）
-        R r = this.applicationFeignClient.load(serviceInfo.getBelongApplication());
-        if (r.getData() == "") {
-            return ResultUtil.error(ResultEnum.APPLICATION_NOT_EXISTS.getMessage());
-        }
-        Map<String, Object> applicationMap = (Map<String, Object>) r.getData();
-        //新增应用服务关联关系
-        ApplicationServices applicationServices = new ApplicationServices();
-        applicationServices.setApplicationId(Integer.valueOf(applicationMap.get("id").toString()));
-        applicationServices.setApplicationName(applicationMap.get("name").toString());
-        applicationServices.setApplicationAliasName(applicationMap.get("shortName").toString());
-        applicationServices.setApplicationVersion(applicationMap.get("version").toString());
-        applicationServices.setServiceVersion(applicationMap.get("version").toString());
-        applicationServices.setServiceId(serviceInfo.getId());
-        applicationServices.setServiceName(serviceInfo.getName());
-        applicationServices.setServiceAliasName(serviceInfo.getShortName());
-        applicationServices.setCreatedBy(AppUserUtil.getLoginAppUser().getUsername());
-        applicationServices.setCreatedTime(new Date());
-        this.applicationFeignClient.add(applicationServices);
-
         return ResultUtil.success("新增成功！");
     }
 

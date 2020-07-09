@@ -17,4 +17,5 @@ public class ServiceInfoDto extends ServiceInfo {
      * 服务分组名称
      */
     private String serviceGroupName;
+
 }

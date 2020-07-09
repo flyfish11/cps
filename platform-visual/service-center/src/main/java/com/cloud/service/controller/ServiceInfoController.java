@@ -3,28 +3,28 @@ package com.cloud.service.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.cloud.common.constants.ServiceIdsConstants;
-import com.cloud.common.enums.AppStatusEnum;
 import com.cloud.common.enums.ResultEnum;
 import com.cloud.common.utils.AppUserUtil;
 import com.cloud.common.utils.ResultUtil;
 import com.cloud.common.utils.ResultVOUtil;
 import com.cloud.common.utils.ValidateUtil;
 import com.cloud.common.vo.ResultVO;
-import com.cloud.model.platformappmanager.ServiceInfo;
-import com.cloud.model.platformappmanager.bo.ApplicationUpdateBO;
 import com.cloud.model.common.Page;
 import com.cloud.model.common.Result;
 import com.cloud.model.log.LogAnnotation;
+import com.cloud.model.platformappmanager.ServiceInfo;
 import com.cloud.model.user.LoginAppUser;
 import com.cloud.service.config.JenkinsConfig;
 import com.cloud.service.dto.ServiceInfoDto;
 import com.cloud.service.exception.ServiceCenterException;
-import com.cloud.service.feign.ApplicationFeignClient;
 import com.cloud.service.service.ServiceInfoService;
 import com.cloud.service.util.HttpClietUtil;
 import com.google.common.collect.Maps;
 import com.offbytwo.jenkins.JenkinsServer;
-import com.offbytwo.jenkins.model.*;
+import com.offbytwo.jenkins.model.Build;
+import com.offbytwo.jenkins.model.BuildWithDetails;
+import com.offbytwo.jenkins.model.Job;
+import com.offbytwo.jenkins.model.JobWithDetails;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -45,7 +45,6 @@ import java.net.URI;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -73,9 +72,6 @@ public class ServiceInfoController {
 
     @Autowired
     private JenkinsConfig jenkinsConfig;
-
-    @Autowired
-    private ApplicationFeignClient applicationFeignClient;
 
     /**
      * jenkins执行第几次构建
@@ -281,17 +277,6 @@ public class ServiceInfoController {
                     isBuilding = details.isBuilding();
                     serviceInfo.setJenkinslog(details.getConsoleOutputText().getBytes());
                     serviceInfoService.update(serviceInfo);
-                    if (details.getResult() == BuildResult.SUCCESS) {
-                        log.info("构建执行状态为：{}", details.getResult());
-                        // 修改应用状态为运行中
-                        Integer applicationId = serviceInfo.getBelongApplication();
-                        if (Objects.nonNull(applicationId)) {
-                            ApplicationUpdateBO applicationUpdateBO = new ApplicationUpdateBO();
-                            applicationUpdateBO.setId(applicationId);
-                            applicationUpdateBO.setRunStatus(AppStatusEnum.RUNNING.getCode());
-                            this.applicationFeignClient.update(applicationUpdateBO);
-                        }
-                    }
                 } else {
                     isBuilding = true;
                 }
