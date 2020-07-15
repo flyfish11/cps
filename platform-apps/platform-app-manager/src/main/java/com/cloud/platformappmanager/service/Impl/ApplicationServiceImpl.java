@@ -453,8 +453,9 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public R indexList() {
+    public R indexList(Integer appClassification) {
         Map<String, Object> params = Maps.newHashMap();
+        params.put("appClassification", appClassification);
         params.put("delFlag", YesOrNoEnum.NO.getType());
         List<Application> applicationList = this.applicationDao.findList(params);
         List<ApplicationDetailVO> applicationDetailVOS = Lists.newArrayList();

@@ -156,8 +156,9 @@ public class ApplicationController {
 
     @GetMapping("/index/list")
     @ApiOperation(value = "首页平台/应用列表", notes = "首页平台/应用列表")
-    public R list() {
-        return this.applicationService.indexList();
+    @ApiImplicitParam(name = "appClassification", value = "应用分类(1平台|2应用)", required = true, dataType = "int", paramType = "query")
+    public R list(@RequestParam Integer appClassification) {
+        return this.applicationService.indexList(appClassification);
     }
 
     @GetMapping("/index/load")

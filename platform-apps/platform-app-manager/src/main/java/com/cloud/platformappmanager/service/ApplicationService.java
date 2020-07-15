@@ -1,6 +1,7 @@
 package com.cloud.platformappmanager.service;
 
 import com.cloud.common.utils.R;
+import com.cloud.model.common.Page;
 import com.cloud.model.platformappmanager.Application;
 import com.cloud.model.platformappmanager.bo.AppAdminBO;
 import com.cloud.model.platformappmanager.bo.AppUsePersonBO;
@@ -8,7 +9,6 @@ import com.cloud.model.platformappmanager.bo.ApplicationAddBO;
 import com.cloud.model.platformappmanager.bo.ApplicationUpdateBO;
 import com.cloud.model.platformappmanager.vo.AppClassificationVO;
 import com.cloud.model.platformappmanager.vo.ApplicationDetailVO;
-import com.cloud.model.common.Page;
 
 import java.util.List;
 import java.util.Map;
@@ -104,9 +104,10 @@ public interface ApplicationService {
     /**
      * <h2>首页平台/应用列表</h2>
      *
+     * @param appClassification 应用分类
      * @return
      */
-    R indexList();
+    R indexList(Integer appClassification);
 
     /**
      * <h2>首页应用详情</h2>
