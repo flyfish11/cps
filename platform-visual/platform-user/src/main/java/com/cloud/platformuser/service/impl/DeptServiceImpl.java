@@ -6,7 +6,7 @@ import com.cloud.common.utils.AppUserUtil;
 import com.cloud.common.utils.R;
 import com.cloud.common.utils.TreeUtil;
 import com.cloud.common.vo.DeptTree;
-import com.cloud.model.user.LoginAppUser;
+import com.cloud.model.platformuser.LoginAppUser;
 import com.cloud.model.platformuser.SysDept;
 import com.cloud.model.platformuser.SysUser;
 import com.cloud.model.platformuser.bo.SysDeptAddBO;

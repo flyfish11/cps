@@ -20,7 +20,7 @@ import com.cloud.model.platformappmanager.bo.UserSyncBO;
 import com.cloud.model.platformappmanager.vo.ApplicationUserSyncVO;
 import com.cloud.model.platformappmanager.vo.UserSyncResultVO;
 import com.cloud.model.common.Page;
-import com.cloud.model.user.LoginAppUser;
+import com.cloud.model.platformuser.LoginAppUser;
 import com.cloud.model.platformuser.bo.SysUserUpdateBO;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;

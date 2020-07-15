@@ -12,7 +12,7 @@ import com.cloud.model.platformuser.SysMenu;
 import com.cloud.model.platformuser.SysRole;
 import com.cloud.model.platformuser.bo.SysMenuAddBO;
 import com.cloud.model.platformuser.bo.SysMenuUpdateBO;
-import com.cloud.model.user.LoginAppUser;
+import com.cloud.model.platformuser.LoginAppUser;
 import com.cloud.platformuser.dao.SysMenuDao;
 import com.cloud.platformuser.service.SysMenuService;
 import com.google.common.collect.Sets;

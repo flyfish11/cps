@@ -10,7 +10,7 @@ import com.cloud.model.common.Result;
 import com.cloud.model.platformappmanager.ServiceInfo;
 import com.cloud.model.platformuser.SysDictItem;
 import com.cloud.model.platformuser.SysRole;
-import com.cloud.model.user.LoginAppUser;
+import com.cloud.model.platformuser.LoginAppUser;
 import com.cloud.service.config.BaseServicesProperties;
 import com.cloud.service.dao.ServiceInfoDao;
 import com.cloud.service.dto.ServiceInfoDto;

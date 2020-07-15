@@ -6,7 +6,7 @@ import com.cloud.common.utils.SysLogUtils;
 import com.cloud.model.log.LogAnnotation;
 import com.cloud.model.log.SysLog;
 import com.cloud.model.log.constants.LogQueue;
-import com.cloud.model.user.LoginAppUser;
+import com.cloud.model.platformuser.LoginAppUser;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

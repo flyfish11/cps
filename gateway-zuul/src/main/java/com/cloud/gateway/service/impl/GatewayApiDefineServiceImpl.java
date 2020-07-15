@@ -12,7 +12,7 @@ import com.cloud.model.gateway.GatewayApiDefine;
 import com.cloud.model.gateway.bo.GatewayApiDefineAddBO;
 import com.cloud.model.gateway.bo.GatewayApiDefineUpdateBO;
 import com.cloud.model.platformuser.SysRole;
-import com.cloud.model.user.LoginAppUser;
+import com.cloud.model.platformuser.LoginAppUser;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;

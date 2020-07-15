@@ -13,7 +13,7 @@ import com.cloud.model.common.Page;
 import com.cloud.model.common.Result;
 import com.cloud.model.log.LogAnnotation;
 import com.cloud.model.platformappmanager.ServiceInfo;
-import com.cloud.model.user.LoginAppUser;
+import com.cloud.model.platformuser.LoginAppUser;
 import com.cloud.service.config.JenkinsConfig;
 import com.cloud.service.dto.ServiceInfoDto;
 import com.cloud.service.exception.ServiceCenterException;

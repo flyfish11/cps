@@ -15,7 +15,7 @@ import com.cloud.model.platformappmanager.bo.AppUsePersonBO;
 import com.cloud.model.platformappmanager.bo.ApplicationAddBO;
 import com.cloud.model.platformappmanager.bo.ApplicationUpdateBO;
 import com.cloud.model.platformappmanager.vo.*;
-import com.cloud.model.user.LoginAppUser;
+import com.cloud.model.platformuser.LoginAppUser;
 import com.cloud.platformappmanager.dao.ApplicationDao;
 import com.cloud.platformappmanager.dao.PlatformGroupDao;
 import com.cloud.platformappmanager.dao.UserApplicationDao;

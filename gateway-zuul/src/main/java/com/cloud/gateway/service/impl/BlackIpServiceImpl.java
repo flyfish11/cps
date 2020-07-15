@@ -11,7 +11,7 @@ import com.cloud.model.common.Page;
 import com.cloud.model.gateway.BlackIp;
 import com.cloud.model.gateway.bo.BlackIpAddBO;
 import com.cloud.model.gateway.bo.BlackIpUpdateBO;
-import com.cloud.model.user.LoginAppUser;
+import com.cloud.model.platformuser.LoginAppUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;

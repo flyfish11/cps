@@ -12,7 +12,7 @@ import com.cloud.file.service.FileInfoService;
 import com.cloud.file.service.MinioTemplate;
 import com.cloud.model.common.Page;
 import com.cloud.model.file.FileInfo;
-import com.cloud.model.user.LoginAppUser;
+import com.cloud.model.platformuser.LoginAppUser;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

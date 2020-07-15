@@ -17,7 +17,7 @@ import com.cloud.model.platformuser.bo.SysUserAddBO;
 import com.cloud.model.platformuser.bo.SysUserUpdateBO;
 import com.cloud.model.platformuser.bo.UpdatePwdBO;
 import com.cloud.model.platformuser.vo.SysUserVo;
-import com.cloud.model.user.LoginAppUser;
+import com.cloud.model.platformuser.LoginAppUser;
 import com.cloud.platformuser.dto.AppUserDto;
 import com.cloud.platformuser.exception.UserCenterException;
 import com.cloud.platformuser.service.SysUserService;

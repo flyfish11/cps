@@ -9,7 +9,7 @@ import com.cloud.common.utils.R;
 import com.cloud.model.platformappmanager.BannerConfig;
 import com.cloud.model.platformappmanager.bo.BannerConfigAddBO;
 import com.cloud.model.platformappmanager.bo.BannerConfigUpdateBO;
-import com.cloud.model.user.LoginAppUser;
+import com.cloud.model.platformuser.LoginAppUser;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;

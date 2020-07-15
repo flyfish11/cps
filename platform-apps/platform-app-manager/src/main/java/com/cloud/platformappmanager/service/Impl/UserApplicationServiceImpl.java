@@ -16,7 +16,7 @@ import com.cloud.model.platformappmanager.UserApplication;
 import com.cloud.model.platformappmanager.vo.MyAppVO;
 import com.cloud.model.platformappmanager.vo.PlatformGroupVO;
 import com.cloud.model.platformappmanager.vo.UserApplicationVO;
-import com.cloud.model.user.LoginAppUser;
+import com.cloud.model.platformuser.LoginAppUser;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

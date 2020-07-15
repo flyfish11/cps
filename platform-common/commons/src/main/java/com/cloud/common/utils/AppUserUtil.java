@@ -1,7 +1,7 @@
 package com.cloud.common.utils;
 
 import cn.hutool.json.JSONUtil;
-import com.cloud.model.user.LoginAppUser;
+import com.cloud.model.platformuser.LoginAppUser;
 import com.cloud.model.platformuser.SysUser;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

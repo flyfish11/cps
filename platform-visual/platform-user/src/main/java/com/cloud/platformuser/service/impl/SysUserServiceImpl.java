@@ -9,7 +9,7 @@ import com.cloud.common.utils.R;
 import com.cloud.model.common.Page;
 import com.cloud.model.platformuser.*;
 import com.cloud.model.platformuser.bo.*;
-import com.cloud.model.user.LoginAppUser;
+import com.cloud.model.platformuser.LoginAppUser;
 import com.cloud.platformuser.dao.*;
 import com.cloud.platformuser.dto.AppUserDto;
 import com.cloud.platformuser.exception.UserCenterException;

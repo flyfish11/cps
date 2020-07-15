@@ -3,7 +3,7 @@ package com.cloud.oauth.service.impl;
 
 import cn.hutool.json.JSONUtil;
 import com.cloud.common.utils.R;
-import com.cloud.model.user.LoginAppUser;
+import com.cloud.model.platformuser.LoginAppUser;
 import com.cloud.model.platformuser.constants.CredentialType;
 import com.cloud.oauth.feign.SmsClient;
 import com.cloud.oauth.feign.UserClient;
