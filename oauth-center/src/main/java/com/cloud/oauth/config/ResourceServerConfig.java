@@ -34,7 +34,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Configuration
 @EnableResourceServer
-@Order(2)
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Autowired
@@ -54,7 +53,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                         (request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED))
                 .and()
                 .authorizeRequests()
-                .antMatchers(PermitAllUrl.permitAllUrl("/actuator/**", "/v2/api-docs", "/v2/api-docs-ext", "/doc.html","/getVerifyImage","/adLogin","/captcha-image"))
+                .antMatchers(PermitAllUrl.permitAllUrl("/actuator/**", "/v2/api-docs", "/v2/api-docs-ext", "/doc.html","/getVerifyImage","/adLogin","/captcha-image","/verifyCode"))
                 .permitAll();
 
     }

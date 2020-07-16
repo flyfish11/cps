@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
 
@@ -19,13 +20,15 @@ public class AdAuthenticationSecurityConfig extends SecurityConfigurerAdapter<De
 
     @Autowired
     private AuthenticationFailureHandler adAuthenticationFailureHandler;
+    @Autowired
+    private AuthenticationSuccessHandler adAuthenticationSuccessHandler;
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
 
         AdAuthenticationFilter adAuthenticationFilter = new AdAuthenticationFilter();
-       adAuthenticationFilter.setAuthenticationFailureHandler(adAuthenticationFailureHandler);
-        VerifyCheckFilter verifyCheckFilter=new VerifyCheckFilter();
+        adAuthenticationFilter.setAuthenticationFailureHandler(adAuthenticationFailureHandler);
+        adAuthenticationFilter.setAuthenticationSuccessHandler(adAuthenticationSuccessHandler);
         adAuthenticationFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
         AdAuthenticationProvider smsCodeAuthenticationProvider = new AdAuthenticationProvider();
         smsCodeAuthenticationProvider.setUserDetailsService(userDetailsService);
