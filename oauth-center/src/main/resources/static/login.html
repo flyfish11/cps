@@ -1,0 +1,163 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        /* 自动填充样式修改 */
+        input:-webkit-autofill {
+            box-shadow: 0 0 0px 1000px rgb(14, 37, 71) inset !important;
+            -webkit-text-fill-color: white !important;
+        }
+        .login{
+            background: url('img/login_bg.png') no-repeat center/cover;
+            height: 100vh;
+            position: absolute;
+            bottom: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+        .form-head {
+            padding-top: 0.625rem;
+            background: url("img/logo1.png") no-repeat center/cover;
+            text-align: center;
+            height: 81px;
+        }
+
+        .login-form {
+            width: 500px;
+            margin: 120px auto;
+            overflow: hidden;
+        }
+
+        .login-form form {
+            padding: 50px 100px 60px;
+            background: url("img/loginForm.png");
+            background-repeat: no-repeat;
+
+        }
+
+        .form_item {
+            line-height: 36px;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .form_item label, .form_code label {
+            line-height: 1.25rem;
+            border: 0;
+            float: left;
+            width: 36px;
+            background: rgb(14, 37, 71);
+            border: 1px solid #0276D5;
+            border-right: 0;
+            height: 36px;
+            padding-left: 5px;
+
+        }
+
+        .form_item input, .form_code input {
+            font-size: inherit;
+            color: white;
+            float: left;
+            padding: 0 8px;
+            box-sizing: border-box;
+            line-height: 36px;
+            margin-bottom: 40px;
+            background: rgb(14, 37, 71);
+            border: 1px solid #0276D5;
+            border-left: 0;
+        }
+
+        .form_item input {
+            width: 100%;
+
+        }
+        .form_code {
+            width: 100%;
+        }
+
+        .form_code input {
+            width: 40%;
+        }
+
+        .form_code .code img {
+            width: 40%;
+            height: 36px;
+            float: right;
+        }
+
+        .login-btn {
+            text-align: center;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .login-btn button {
+            margin-top: 20px;
+            border: 0;
+            outline: none;
+            line-height: 32px;
+            background: url("img/btnBg.png");
+            background-size: 100% 100%;
+            width: 150px;
+            color: #fff;
+            -moz-background-size: 100% 100%;
+            min-width: 120px !important;
+        }
+
+        .form-warning {
+            padding-bottom: 10px;
+        }
+
+        .form-warning .warning {
+            font-size: 20px;
+            color: red;
+            width: 300px;
+            margin: 0 auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="login">
+    <div class="form-head"></div>
+
+    <!--注册表单-->
+    <div class="login-form">
+        <form th:action="@{/form/login}" th:method="post">
+            <div class="form-warning">
+                <p th:class="warning" th:if="${param.error}"
+                   th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message} " class="bg-danger"></p>
+            </div>
+            <div class="form_item">
+                <label><img src="img/user.png" alt=""></label>
+                <input type="text" name="username" id="username" placeholder="请输入用户名">
+            </div>
+            <div class="form_item">
+                <label><img src="img/password.png" alt=""></label>
+                <input type="password" name="password" id="password" placeholder="请输入密码名">
+            </div>
+
+            <div class="form_code">
+                <label><img src="img/code.png" alt=""></label>
+                <input type="text" name="code" id="code" placeholder="请输入验证码">
+                <div onclick="refreshCode()" class="code"><img id="imagCode" src="/captcha-image" alt=""></div>
+            </div>
+            <div class="login-btn">
+                <button type="submit" value="登录">登&nbsp;&nbsp;录</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<script>
+    function refreshCode() {
+        document.getElementById("imagCode").setAttribute("src", '/captcha-image?' + Math.random());
+    }
+</script>
+</html>

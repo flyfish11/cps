@@ -7,32 +7,30 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AdAuthenticationSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
-    @Autowired
-    private AuthenticationSuccessHandler myAuthenticationSuccessHandler;
-
-    @Autowired
-    private AuthenticationFailureHandler myAuthenticationFailureHandler;
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private AuthenticationFailureHandler adAuthenticationFailureHandler;
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
 
         AdAuthenticationFilter adAuthenticationFilter = new AdAuthenticationFilter();
+       adAuthenticationFilter.setAuthenticationFailureHandler(adAuthenticationFailureHandler);
+        VerifyCheckFilter verifyCheckFilter=new VerifyCheckFilter();
         adAuthenticationFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
-        adAuthenticationFilter.setAuthenticationSuccessHandler(myAuthenticationSuccessHandler);
-        adAuthenticationFilter.setAuthenticationFailureHandler(myAuthenticationFailureHandler);
         AdAuthenticationProvider smsCodeAuthenticationProvider = new AdAuthenticationProvider();
         smsCodeAuthenticationProvider.setUserDetailsService(userDetailsService);
         http.authenticationProvider(smsCodeAuthenticationProvider)
-                .addFilterAfter(adAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterAfter(adAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(verifyCheckFilter,UsernamePasswordAuthenticationFilter.class);
     }
 }

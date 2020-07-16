@@ -36,6 +36,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     private final DataSource dataSource;
 
+    private final TokenStore tokenStore;
+
     @Autowired
     private final AuthenticationManager authenticationManagerBean;
 
@@ -65,16 +67,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints
                 .authenticationManager(authenticationManagerBean)
-                .tokenStore(tokenStore())
+                .tokenStore(tokenStore)
                 .authorizationCodeServices(redisAuthorizationCodeServices)
                 // 自定义异常转换类
                 .exceptionTranslator(new OAuth2WebResponseExceptionTranslator());
     }
 
-    @Bean
-    public TokenStore tokenStore() {
-        return new RedisTokenStore(redisConnectionFactory);
-    }
 
     /**
      * Jwt资源令牌转换器

@@ -22,11 +22,17 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * AD 认证成功后生成token
+ * @author fishfly
+ *
+ *  AD 认证成功后生成token
+ * 集成授权码模式后不需要了
+ * 使用系统默认处理
  */
-@Component("myAuthenticationSuccessHandler")
+@Component("adAuthenticationSuccessHandler")
 @Slf4j
-public class MyAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
+public class AdAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
+
+
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -65,7 +71,7 @@ public class MyAuthenticationSuccessHandler extends SavedRequestAwareAuthenticat
         OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, authentication);
         OAuth2AccessToken token = authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
         response.setContentType("application/json;charset=UTF-8");
-        //Result success = ResultUtil.success(token);
+        Result success = ResultUtil.success(token);
         response.getWriter().write(objectMapper.writeValueAsString(token));
 
     }

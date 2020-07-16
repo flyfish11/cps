@@ -1,19 +1,19 @@
 package com.cloud.oauth.config;
 
 import com.cloud.common.constants.PermitAllUrl;
-import com.cloud.oauth.adauthenication.AdAuthenticationSecurityConfig;
-import com.cloud.oauth.adauthenication.AdCheckFilter;
-import com.cloud.oauth.exception.AuthExceptionEntryPoint;
 import com.cloud.oauth.exception.CustomAccessDeniedHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,26 +36,30 @@ import javax.servlet.http.HttpServletResponse;
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Autowired
-    private AdAuthenticationSecurityConfig adAuthenticationSecurityConfig;
+    private  RedisConnectionFactory redisConnectionFactory;
 
-    @Autowired
-    private AdCheckFilter adCheckFilter;
+    @Bean
+    public TokenStore tokenStore() {
+        return new RedisTokenStore(redisConnectionFactory);
+    }
+
+
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().exceptionHandling()
                 .authenticationEntryPoint(
                         (request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED))
-                .and().authorizeRequests().antMatchers(PermitAllUrl.permitAllUrl("/adLogin", "/oauth/check_token", "/actuator/**", "/v2/api-docs", "/v2/api-docs-ext", "/doc.html")).permitAll()
-                .anyRequest().authenticated().and().httpBasic().and()
-                .apply(adAuthenticationSecurityConfig).and()
-                .addFilterAfter(this.adCheckFilter, UsernamePasswordAuthenticationFilter.class);
+                .and()
+                .authorizeRequests()
+                .antMatchers(PermitAllUrl.permitAllUrl("/actuator/**", "/v2/api-docs", "/v2/api-docs-ext", "/doc.html","/getVerifyImage","/adLogin","/captcha-image"))
+                .permitAll();
+
     }
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-        resources.authenticationEntryPoint(new AuthExceptionEntryPoint())
-                .accessDeniedHandler(new CustomAccessDeniedHandler());
+        resources.accessDeniedHandler(new CustomAccessDeniedHandler());
     }
 
 
@@ -74,7 +78,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
             String auth = request.getHeader("Authorization");
             if (StringUtils.isNotEmpty(auth) && auth.startsWith(OAuth2AccessToken.BEARER_TYPE)) {
                 return true;
-            } else {
+            }else{
                 return false;
             }
         }

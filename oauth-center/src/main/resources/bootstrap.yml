@@ -29,6 +29,16 @@ spring:
   mvc:
     servlet:
       load-on-startup: 1
+  thymeleaf:
+    cache: false #关闭thymeleaf缓存
+    prefix: classpath:/static/
+    static-path-pattern: /**
+    suffix: .html
+    encoding: UTF-8
+    resources:
+      static-locations: classpath:/static/
+    servlet:
+      content-type: text/html
 eureka:
   client:
     serviceUrl:
@@ -39,10 +49,6 @@ eureka:
     lease-renewal-interval-in-seconds: 5
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${server.port}
-security:
-  oauth2:
-    resource:
-      filter-order: 3
 #ribbon的超时时间
 ribbon:
   eager-load:
@@ -73,3 +79,5 @@ management:
 logging:
   file:
     path: logs/${spring.application.name}.log
+
+defaultRedirectUri: "http://10.130.86.37:8093"

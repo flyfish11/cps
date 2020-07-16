@@ -25,7 +25,7 @@ import java.util.Set;
 public class AdCheckFilter extends OncePerRequestFilter implements InitializingBean {
 
     @Autowired
-    private AuthenticationFailureHandler authenticationFailureHandler;
+    private AuthenticationFailureHandler adAuthenticationFailureHandler;
 
     @Autowired
     private UserClient userClient;
@@ -66,12 +66,12 @@ public class AdCheckFilter extends OncePerRequestFilter implements InitializingB
                 LdapUserBO ldapUser = LdapUserBO.builder().account(account).password(password).build();
                 R authenticate = userClient.authenticate(ldapUser);
                 if (authenticate.getCode() != CommonConstants.SUCCESS) {
-                    authenticationFailureHandler.onAuthenticationFailure(request, response, new AdAuthenticationException(authenticate.getMsg()));
+                    adAuthenticationFailureHandler.onAuthenticationFailure(request, response, new AdAuthenticationException(authenticate.getMsg()));
                     return;
                 }
             } catch (Exception e) {
                 log.error("【LDAP登录异常】{}", e.getMessage());
-                authenticationFailureHandler.onAuthenticationFailure(request, response, new AdAuthenticationException("LDAP连接失败，请检验LDAP服务是否正常！"));
+                adAuthenticationFailureHandler.onAuthenticationFailure(request, response, new AdAuthenticationException("LDAP连接失败，请检验LDAP服务是否正常！"));
                 return;
             }
         }

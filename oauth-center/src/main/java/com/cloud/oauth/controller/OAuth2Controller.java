@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.security.Principal;
@@ -24,6 +25,16 @@ import java.security.Principal;
 @RequestMapping
 @Api(tags = "token管理")
 public class OAuth2Controller {
+
+
+
+    @GetMapping("/login")
+    public ModelAndView showUserDetails(){
+        ModelAndView modelAndView = new ModelAndView();
+        //记得一定要将"/"加上
+        modelAndView.setViewName("login");
+        return modelAndView;
+    }
 
     @Autowired
     private TokenStore tokenStore;
