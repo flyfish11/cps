@@ -30,7 +30,7 @@ public class AdAuthenticationSecurityConfig extends SecurityConfigurerAdapter<De
         AdAuthenticationProvider smsCodeAuthenticationProvider = new AdAuthenticationProvider();
         smsCodeAuthenticationProvider.setUserDetailsService(userDetailsService);
         http.authenticationProvider(smsCodeAuthenticationProvider)
-                .addFilterAfter(adAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(verifyCheckFilter,UsernamePasswordAuthenticationFilter.class);
+                .addFilterAfter(adAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+//                .addFilterBefore(verifyCheckFilter,UsernamePasswordAuthenticationFilter.class);
     }
 }

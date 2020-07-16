@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -33,6 +34,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Configuration
 @EnableResourceServer
+@Order(2)
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Autowired
