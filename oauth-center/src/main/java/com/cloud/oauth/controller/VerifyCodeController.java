@@ -38,8 +38,6 @@ public class VerifyCodeController
     @Autowired
     private StringRedisTemplate redisTemplate;
 
-
-
     /**
      * 登录图片验证码
      *
@@ -95,7 +93,6 @@ public class VerifyCodeController
      * @return
      * @throws Exception
      */
-
     @RequestMapping(value = "/verifyCode")
     public R verifyCode(@RequestParam("code") String code) throws Exception {
         if(StringUtils.isBlank(code)){
@@ -110,10 +107,7 @@ public class VerifyCodeController
             redisTemplate.opsForValue().set(CommonConstants.KAPTCHA_CODE,"");
             return R.failed("验证码错误");
         }
-
-
     }
-
 
     @GetMapping("/getCheckCode")//该方法为验证码值的获取方法
     public Object getCheckCode(HttpSession session) {

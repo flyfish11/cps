@@ -3,12 +3,14 @@ package com.cloud.oauth.adauthenication;
 
 import com.cloud.common.utils.ResultUtil;
 import com.cloud.model.common.Result;
+import com.cloud.oauth.oauth2.LoginAttemptService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.client.resource.UserRedirectRequiredException;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAuthenticationException;
 import org.springframework.security.oauth2.provider.*;
@@ -20,6 +22,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.Principal;
 
 /**
  * @author fishfly
@@ -39,6 +42,8 @@ public class AdAuthenticationSuccessHandler extends SavedRequestAwareAuthenticat
 
     @Autowired
     private ClientDetailsService clientDetailsService;
+    @Autowired
+    private LoginAttemptService loginAttemptService;
 
     @Autowired
     private AuthorizationServerTokenServices authorizationServerTokenServices;
@@ -54,6 +59,10 @@ public class AdAuthenticationSuccessHandler extends SavedRequestAwareAuthenticat
      */
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+
+        Principal userPrincipal = request.getUserPrincipal();
+        loginAttemptService.loginSucceeded(userPrincipal.getName());
+
         log.info("认证成功");
         String clientId = "ad";
         String clientSecret = "ad";

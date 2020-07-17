@@ -7,17 +7,20 @@ import com.cloud.model.platformuser.LoginAppUser;
 import com.cloud.model.platformuser.constants.CredentialType;
 import com.cloud.oauth.feign.SmsClient;
 import com.cloud.oauth.feign.UserClient;
+import com.cloud.oauth.oauth2.LoginAttemptService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @Slf4j
@@ -32,13 +35,17 @@ public class UserDetailServiceImpl implements UserDetailsService
     private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
+    private LoginAttemptService loginAttemptService;
+    @Autowired
     private SmsClient smsClient;
 
     @Override
     public UserDetails loadUserByUsername(String account) {
+
         // 为了支持多类型登录，这里username后面拼装上登录类型,如username|type
         String[] params = account.split("\\|");
         account = params[0];// 真正的用户名
+
 
         R result = userClient.findByAccount(account);
         LoginAppUser loginAppUser = null;
@@ -52,6 +59,9 @@ public class UserDetailServiceImpl implements UserDetailsService
             }
             else if (!loginAppUser.isEnabled()) {
                 throw new DisabledException("用户已作废");
+            }
+            else if(!loginAppUser.isAccountNonLocked()){
+                throw new LockedException("用户已被锁定");
             }
             if (params.length > 1) {
                 // 登录类型
