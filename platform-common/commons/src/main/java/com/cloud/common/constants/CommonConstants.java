@@ -73,6 +73,8 @@ public final class CommonConstants {
 
     public static final String CACHE_TOKEN = "login-token:";
 
+    public static final String KAPTCHA_CODE = "kaptcha:code";
+
     /**
      * 其他平台请求返回成功标记
      */
