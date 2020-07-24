@@ -61,7 +61,9 @@ public class AdAuthenticationSuccessHandler extends SavedRequestAwareAuthenticat
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
         Principal userPrincipal = request.getUserPrincipal();
-        loginAttemptService.loginSucceeded(userPrincipal.getName());
+        if(userPrincipal!=null){
+                loginAttemptService.loginSucceeded(userPrincipal.getName());
+        }
 
         log.info("认证成功");
         String clientId = "ad";
